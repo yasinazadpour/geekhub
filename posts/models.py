@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+from django.core import validators
+from django.utils.deconstruct import deconstructible
 
 class Post(models.Model):
     user = models.ForeignKey('accounts.MyUser', verbose_name=_("نویسنده"), on_delete=models.CASCADE, related_name="user_posts")
@@ -9,6 +10,7 @@ class Post(models.Model):
     date = models.DateTimeField(_("تاریخ"), auto_now=True)
     slug = models.CharField(_("کد صفحه"), max_length=50, unique=True)
     is_pub = models.BooleanField(_("منتشر شده"), default=False)
+    tags = models.ManyToManyField('Tag', verbose_name=_("برچسب ها"), blank=True, related_name='taged_posts')
 
     @property
     def comments(self):
@@ -35,3 +37,26 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.user.name} > {self.post.title}'
+
+
+@deconstructible
+class TagVilidator(validators.RegexValidator):
+    regex = r'^[\.آ-یa-z_-]{3,50}$'
+    message = _('یک برچسب معتبر وارد کنید.')
+
+
+class Tag(models.Model):
+    tag_validator = TagVilidator()
+
+    name = models.CharField(_('نام'), max_length=50, unique=True, validators=[tag_validator])
+
+    @property
+    def posts(self):
+        return self.taged_posts.filter(is_pub=True).order_by('-date')
+
+    class Meta:
+        verbose_name = _('برچسب')
+        verbose_name_plural = _('برچسب ها')
+
+    def __str__(self):
+        return f'{self.name}'
