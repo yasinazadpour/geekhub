@@ -6,7 +6,7 @@ from django.utils.deconstruct import deconstructible
 class Post(models.Model):
     user = models.ForeignKey('accounts.MyUser', verbose_name=_("نویسنده"), on_delete=models.CASCADE, related_name="user_posts")
     title = models.CharField(_("عنوان"), max_length=50, unique=True)
-    image = models.ImageField(_("عکس"), help_text="بهتر است نسبت عکس 16:9 باشد.", upload_to='posts/')
+    image = models.ImageField(_("عکس"), help_text=_("بهتر است نسبت عکس 16:9 باشد."), upload_to='posts/')
     text =  models.TextField(_("متن"), max_length=20_000)
     date = models.DateTimeField(_("تاریخ"), auto_now=True)
     slug = models.CharField(_("کد صفحه"), max_length=50, unique=True)
@@ -61,3 +61,16 @@ class Tag(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+class Link(models.Model):
+    name = models.CharField(_("نام"), help_text=_("برای نشان دادن ایکون مناسب استفاده می شود"), max_length=50)
+    about = models.CharField(_("درباره"), help_text=_("توضیحاتی درباره پیوند"), max_length=50)
+    url = models.URLField(_("url"), max_length=200)
+
+
+    class Meta:
+        verbose_name = _('پیوند')
+        verbose_name_plural = _('پیوند ها')
+
+    def __str__(self):
+        return self.name
