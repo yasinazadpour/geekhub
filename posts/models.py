@@ -6,6 +6,7 @@ from django.utils.deconstruct import deconstructible
 class Post(models.Model):
     user = models.ForeignKey('accounts.MyUser', verbose_name=_("نویسنده"), on_delete=models.CASCADE, related_name="user_posts")
     title = models.CharField(_("عنوان"), max_length=50, unique=True)
+    image = models.ImageField(_("عکس"), help_text="بهتر است نسبت عکس 16:9 باشد.", upload_to='posts/')
     text =  models.TextField(_("متن"), max_length=20_000)
     date = models.DateTimeField(_("تاریخ"), auto_now=True)
     slug = models.CharField(_("کد صفحه"), max_length=50, unique=True)
