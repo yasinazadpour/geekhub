@@ -1,0 +1,11 @@
+{% extends './base.html' %}
+{% load posts_extra %}
+{% block main %}
+{% autoescape off %}
+<main class="w-full max-w-6xl">
+    <article class="p-4 sm:p-6 mb-10 min-h-[76vh]">
+        {{post.text|markdown}}
+    </article>
+</main>
+{% endautoescape %}
+{% endblock main %}

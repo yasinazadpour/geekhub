@@ -1,4 +1,5 @@
-from django.http import Http404
+from http.client import HTTPResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from .models import Post, Tag
@@ -77,3 +78,13 @@ def post_view(request, slug):
         return render(request, 'post_view.html', {'post': post, 'title': post.title,'related': set(related)})
 
     raise Http404
+
+
+def about_view(request):
+    query = Post.objects.filter(slug='about')
+
+    if query.exists():
+        post = query.first()
+        return render(request, 'about.html', {'post': post, 'title': 'درباره'})
+
+    return HttpResponse("ببخشید هنوز این صفحه رو نساختیم :(")
