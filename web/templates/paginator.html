@@ -16,7 +16,7 @@
 
 
     {% for i,j in page.number|pg:'-' %}
-        {% if i not in page.paginator.page_range %}
+        {% if i not in page.paginator.page_range and j in page.paginator.page_range %}
 
             <a
             href="?page={{j}}"
