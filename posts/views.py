@@ -40,3 +40,15 @@ def tag_view(request, name):
 
     else:
         raise Http404
+
+
+def search_view(request):
+    num_page = request.GET.get('page', 1)
+    text = request.GET.get('text')
+    # TODO: use another features to order posts
+    if text:
+        query = Post.objects.filter(title__icontains=text).order_by('-date')
+        p = Paginator(query, 25)
+        page = p.get_page(num_page)
+        return render(request, 'search.html', {'page': page, 'title': 'جستجو'})
+    return render(request, 'search.html', {'title': 'جستجو'})
