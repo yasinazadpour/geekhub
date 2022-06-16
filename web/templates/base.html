@@ -1,0 +1,105 @@
+{% load posts_extra %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  {% include './head.html' with title=title description=description %}
+  <body>
+
+    {# header #}
+    <header id="header" class="h-14 xl:h-14 fixed top-0 flex flex-col items-center xl:flex-row justify-between py-2 px-3 w-full z-20 border-b-[1px] xl:border-b-[2px] border-slate-100 bg-[#ffffffcc] backdrop-blur overflow-hidden" >
+        <h1 class="text-xl mt-2 xl:mt-0"><a href="/" class="block">نام</a></h1>
+    
+        <ul id="items" class="w-full xl:w-min xl:relative flex flex-col items-center xl:flex-row text-xl overflow-hidden xl:overflow-visible h-40">
+            <li><a class="py-3 px-4 block" href="/">خانه</a></li>
+            <li><a class="py-3 px-4 block" href="/about">درباره</a></li>
+            <li class="hidden xl:block"><a class="py-3 px-4 block" href="/search">جستجو</a></li>
+            {% if request.user.is_authenticated %}
+                <li class="flex w-full">
+                    <a href="/me" class="flex mr-4" title="نمایش پروفایل">
+                    <div class="h-14 xl:h-10 xl:w-10 overflow-hidden rounded-full w-14">
+                        <img src="{{request.user.image.url}}" alt="عکس پروفایل من" class="h-full w-full">
+                    </div>
+                    <div class="flex flex-col mr-3 xl:hidden w-2/3">
+                        <span class="truncate ">{{request.user.name}}</span>
+                        <span class="text-slate-600 truncate pl-5">{{request.user.email}}</span>
+                    </div>
+                    </a>
+                </li>
+            {% else %}
+                <li class="w-full overflow-visible flex justify-center"><a class="py-2 px-6 block bg-gray-900 rounded-full text-white w-11/12 xl:w-auto text-center overflow-visible" href="/login">ورود</a></li>
+            {% endif %}
+        </ul>
+        
+        <div class="absolute left-3 xl:hidden flex items-center">
+            <button onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').addClass('overflow-hidden')"><i class="bi bi-hash py-1 text-2xl block px-2 text-slate-700"></i></button>
+            <a href="/search" ><i class="bi bi-search py-1 text-lg block pl-4 pr-2 text-slate-700" ></i></a>
+            <button onclick="$('#more').toggleClass('active');$('#header').toggleClass('h-56');" id="more" class="w-6">
+                <div class="h-[2px] w-full rounded-full bg-slate-700"></div>
+                <div class="h-[2px] w-full rounded-full bg-slate-700 my-2"></div>
+                <div class="h-[2px] w-full rounded-full bg-slate-700"></div>
+            </button>
+        </div>
+    </header>
+    <main class="flex justify-center mt-14">
+
+        {% block main %}
+
+        {% endblock main %}
+
+    </main>
+    {# footer #}
+    <footer class="bg-gray-100 flex py-10 px-8 items-center justify-around text-gray-700 flex-col sm:flex-row text-lg w-full">
+        {% if links %}
+            <div class="flex mt-2 sm:m-0" id="links">
+                {% for link in links %}
+                    <a
+                        href="{{link.url}}"
+                        target="_blank"
+                        title="{{link.about}}"
+                        rel="noopener noreferrer"
+                    {% if link.name == 'reddit' %}
+                        class="transition-none px-1 hover:scale-110 focus-visible:scale-110 hover:text-orange-500  focus-visible:text-orange-500">
+                        <i class="bi bi-reddit"></i>
+    
+                    {% elif link.name == 'linkedin'%}
+                        class="transition-none px-1 hover:scale-110 hover:text-blue-500 focus-visible:scale-110 focus-visible:text-blue-500">
+                        <i class="bi bi-linkedin"></i>
+                        
+                    {% elif link.name == 'pinterest'%}
+                        class="transition-none px-1 hover:scale-110 hover:text-red-500 focus-visible:scale-110 focus-visible:text-red-500">
+                        <i class="bi bi-pinterest"></i>
+                        
+                    {% elif link.name == 'github'%}
+                        class="transition-none px-1 hover:scale-110 hover:text-black focus-visible:scale-110 focus-visible:text-black">
+                        <i class="bi bi-github"></i>
+    
+                    {% elif link.name == 'telegram'%}
+                        class="transition-none px-1 hover:scale-110 hover:text-blue-500 focus-visible:scale-110 focus-visible:text-blue-500">
+                        <i class="bi bi-telegram"></i>
+                        
+                    {% elif link.name == 'facebook'%}
+                        class="transition-none px-1 hover:scale-110 hover:text-blue-500 focus-visible:scale-110 focus-visible:text-blue-500">
+                        <i class="bi bi-facebook"></i>
+                    
+                    {% elif link.name == 'youtube'%}
+                        class="transition-none px-1 hover:scale-110 hover:text-red-500 focus-visible:scale-110 focus-visible:text-red-500">
+                        <i class="bi bi-youtube"></i>
+    
+                    {% elif link.name == 'twitter'%}
+                        class="transition-none px-1 hover:scale-110 hover:text-blue-500 focus-visible:scale-110 focus-visible:text-blue-500">
+                        <i class="bi bi-twitter"></i>
+    
+                    {% elif link.name == 'instagram'%}
+                        class="transition-none px-1 hover:scale-110 hover:text-purple-700 focus-visible:scale-110 focus-visible:text-purple-500">
+                        <i class="bi bi-instagram"></i>
+    
+                    {% else %}
+                        class="transition-none px-1 hover:scale-110 hover:text-black focus-visible:scale-110 focus-visible:text-black">
+                        <i class="bi bi-link-45deg"></i>
+                    {% endif %}
+                </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </footer>
+  </body>
+</html>

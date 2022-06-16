@@ -1,0 +1,14 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="{{description}}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>نام {% if title %}- {{ title|title }}{% endif %}</title>
+    
+    {# TODO: use cdn in production #}
+    <script src="{% static 'CSS/tailwind' %}"></script>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'CSS/icons/font/bootstrap-icons.css' %}"/>
+    <script src="{% static 'JS/jquery.min.js' %}"></script>
+</head>
