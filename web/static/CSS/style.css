@@ -1,0 +1,57 @@
+* {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 200ms ease-in-out;
+}
+::selection {
+  color: #4c00ff;
+  background: #4c00ff3a;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 100px;
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #72727285;
+}
+::-webkit-scrollbar-button {
+  visibility: hidden;
+}
+
+#more.active :first-child {
+  transform: translateY(0.6rem) rotate(45deg);
+}
+#more.active :nth-child(2) {
+  opacity: 0;
+  transform: scale(0.75);
+}
+#more.active :last-child {
+  transform: translateY(-0.6rem) rotate(-45deg);
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+/* Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+img {
+  user-select: none;
+}
+
+:focus-visible,
+:focus {
+  outline: none;
+}
