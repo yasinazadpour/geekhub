@@ -1,7 +1,13 @@
+@font-face {
+  font-family: iransans;
+  src: url(./iransans.ttf);
+}
+
 * {
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
   transition: all 200ms ease-in-out;
+  font-family: iransans;
 }
 ::selection {
   color: #4c00ff;
