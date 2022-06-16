@@ -1,6 +1,7 @@
+from django.http import Http404
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from .models import Post
+from .models import Post, Tag
 
 
 def home(request):
@@ -17,3 +18,25 @@ def home(request):
     p = Paginator(query, 25)
     page = p.get_page(num_page)
     return render(request, 'index.html', {'page': page})
+
+
+def tag_view(request, name):
+    query = Tag.objects.filter(name=name)
+    if query.exists():
+        num_page = request.GET.get('page', 1)
+        q = request.GET.get('q')
+        tag = query.first()
+        if q == 'top':
+            # TODO: order by comments count and ...
+            posts = tag.posts.order_by('?')
+        elif q == 'oldest':
+            posts = tag.posts.all().order_by('date')
+        else:
+            posts = tag.posts.all().order_by('-date')
+
+        p = Paginator(posts, 25)
+        page = p.get_page(num_page)
+        return render(request, 'tag_view.html', {'page': page,'tag': tag,'title': f'# {tag.name}'})
+
+    else:
+        raise Http404

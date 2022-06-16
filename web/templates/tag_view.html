@@ -1,0 +1,82 @@
+{% extends './base.html' %}
+{% load posts_extra %}
+{% block main %}
+
+    <main class="p-4 sm:p-6 max-w-6xl w-full">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center" title="{{tag.name}} • {{tag.posts.count}} پست">
+                <i class="bi bi-hash text-{{tag.pk|gencol}} text-7xl sm:text-8xl mr-2 "></i>
+              <div class="flex flex-col">
+                <h1 class="text-lg sm:text-xl ">{{tag.name}}</h1>
+                <span class="text-gray-500">
+                  {{tag.posts.count}} پست
+                </span>
+              </div>
+            </div>
+          </div>
+        <header class="flex items-center justify-between py-2">
+        <h1 class="text-lg sm:text-xl">
+            {% if request.GET.q == 'top' %}
+            برترین ها
+            {% elif request.GET.q == 'oldest' %}
+            قدیمی ترین ها
+            {% else %}
+            آخرین ها
+            {% endif %}
+        </h1>
+        <div class="flex">
+            <button
+            class="relative px-4 py-1 bg-gray-100 mr-1 rounded-full text-slate-800 z-10"
+            onclick="$('#options').toggleClass('opacity-0 pointer-events-none scale-95')"
+            >
+            {% if request.GET.q == 'top' %}
+            برترین ها
+            {% elif request.GET.q == 'oldest' %}
+            قدیمی ترین ها
+            {% else %}
+            آخرین ها
+            {% endif %} <i class="bi-chevron-down bi mr-1"></i>
+            <ul
+                id="options"
+                class="more absolute top-full rounded-lg bg-gray-50 w-44 left-0 mt-2 overflow-hidden scale-95 opacity-0 pointer-events-none border-slate-200 border-[1px]"
+            >
+                <li>
+                <a
+                    class="block py-3 px-5 hover:bg-gray-100 focus-visible:bg-gray-100"
+                    href="?q=latests"
+                    >آخرین ها</a
+                >
+                </li>
+                <li>
+                <a
+                    class="block py-3 px-5 hover:bg-gray-100 focus-visible:bg-gray-100"
+                    href="?q=top"
+                    >برترین ها</a
+                >
+                </li>
+                <li>
+                <a
+                    class="block py-3 px-5 hover:bg-gray-100 focus-visible:bg-gray-100"
+                    href="?q=oldest"
+                    >قدیمی ترین ها</a
+                >
+                </li>
+            </ul>
+            </button>
+        </div>
+        </header>
+        <div id="posts">
+        {% for post in page.object_list %}
+
+        {# a post #}
+        {% include './post.html' with post=post %}
+
+        {% endfor %}
+        
+        </div>
+        
+        {% include './paginator.html' with page=page %}
+
+    </main>
+
+{% endblock main %}
