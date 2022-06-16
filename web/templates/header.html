@@ -23,7 +23,7 @@
     </ul>
     
     <div class="absolute left-3 xl:hidden flex items-center">
-        <button onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none')"><i class="bi bi-hash py-1 text-2xl block px-2 text-slate-700"></i></button>
+        <button onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').addClass('overflow-hidden')"><i class="bi bi-hash py-1 text-2xl block px-2 text-slate-700"></i></button>
         <a href="/search" ><i class="bi bi-search py-1 text-lg block pl-4 pr-2 text-slate-700" ></i></a>
         <button onclick="$('#more').toggleClass('active');$('#header').toggleClass('h-56');" id="more" class="w-6">
             <div class="h-[2px] w-full rounded-full bg-slate-700"></div>

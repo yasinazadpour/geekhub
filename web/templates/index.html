@@ -1,0 +1,129 @@
+{% load posts_extra %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="درباره این سابت" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>نام {% if title %}- {{ title|title }}{% endif %}</title>
+    
+    {# TODO: use cdn in production #}
+    <script src="{% static 'CSS/tailwind' %}"></script>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'CSS/icons/font/bootstrap-icons.css' %}"/>
+    <script src="{% static 'JS/jquery.min.js' %}"></script>
+  </head>
+  <body>
+
+    {# header #}
+    {% include './header.html' with title="نام" %}
+
+    <main class="flex justify-center mt-14">
+      <main class="p-4 sm:p-6 max-w-6xl w-full">
+        <header class="flex items-center justify-between py-2">
+          <h1 class="text-lg sm:text-xl">
+            {% if request.GET.q == 'top' %}
+            برترین ها
+            {% elif request.GET.q == 'oldest' %}
+            قدیمی ترین ها
+            {% else %}
+            آخرین ها
+            {% endif %}
+          </h1>
+          <div class="flex">
+            <button
+              class="relative px-4 py-1 bg-gray-100 mr-1 rounded-full text-slate-800 z-10"
+              onclick="$('#options').toggleClass('opacity-0 pointer-events-none scale-95')"
+            >
+            {% if request.GET.q == 'top' %}
+            برترین ها
+            {% elif request.GET.q == 'oldest' %}
+            قدیمی ترین ها
+            {% else %}
+            آخرین ها
+            {% endif %} <i class="bi-chevron-down bi mr-1"></i>
+              <ul
+                id="options"
+                class="more absolute top-full rounded-lg bg-gray-50 w-44 left-0 mt-2 overflow-hidden scale-95 opacity-0 pointer-events-none border-slate-200 border-[1px]"
+              >
+                <li>
+                  <a
+                    class="block py-3 px-5 hover:bg-gray-100 focus-visible:bg-gray-100"
+                    href="?q=latests"
+                    >آخرین ها</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block py-3 px-5 hover:bg-gray-100 focus-visible:bg-gray-100"
+                    href="?q=top"
+                    >برترین ها</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="block py-3 px-5 hover:bg-gray-100 focus-visible:bg-gray-100"
+                    href="?q=oldest"
+                    >قدیمی ترین ها</a
+                  >
+                </li>
+              </ul>
+            </button>
+          </div>
+        </header>
+        <div id="posts">
+          {% for post in page.object_list %}
+
+          {# a post #}
+          {% include './post.html' with post=post %}
+
+          {% endfor %}
+          
+        </div>
+        
+        {% include './paginator.html' with page=page %}
+
+      </main>
+      <aside
+        id="tags"
+        class="rounded-tr-2xl rounded-tl-2xl fixed h-5/6 -bottom-full xl:bottom-[unset] xl:block xl:sticky xl:top-14 min-w-[17rem] w-full xl:max-w-[22rem] xl:max-h-screen overflow-hidden z-30 xl:z-10 bg-white xl:rounded-2xl xl:my-4 xl:mx-2 xl:border-[2px] border-slate-100"
+      >
+        <button
+          onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').removeClass('overflow-hidden')"
+          class="p-2 w-full flex items-center justify-center xl:w-auto xl:h-full xl:right-0 xl:absolute xl:hidden"
+        >
+          <div
+            id="close"
+            class="fixed w-full top-0 left-0 bg-[#0000001a] h-1/6 backdrop-blur opacity-0 pointer-events-none"
+          ></div>
+          <div class="rounded-full bg-gray-200 w-20 h-1 xl:h-20 xl:w-1"></div>
+        </button>
+
+        <h1 class="my-2 text-3xl text-slate-700 xl:mx-2">برچسب ها</h1>
+        <ul class="h-[calc(100vh-100px)] overflow-auto">
+          {% for tag in tags %}
+          <li>
+            <a
+              title="نمایش پست های این برچسب"
+              href="/tags/{{tag.name}}"
+              class="px-3 flex items-center text-7xl text-{{tag.pk|gencol}} w-full hover:bg-gray-100 focus-visible:bg-gray-100"
+            >
+              <i class="bi bi-hash"></i>
+              <span class="flex flex-col mr-2">
+                <span class="text-xl text-gray-700">{{tag.name}}</span>
+                  <span class="text-lg text-gray-500">{{tag.posts.count}} پست</span> 
+              </span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </aside>
+    </main>
+    
+    {# footer #}
+    {% include './footer.html' %}
+    
+  </body>
+</html>

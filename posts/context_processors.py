@@ -1,5 +1,6 @@
-from .models import Link
+from .models import Link, Tag
 
 
 def custom(request):
-    return {'links': Link.objects.all()}
+    return {'links': Link.objects.all(),
+            'tags': Tag.objects.all()}
