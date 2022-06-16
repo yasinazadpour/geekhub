@@ -1,5 +1,7 @@
 from django import template
 from django.utils.timesince import timesince
+import markdown as md
+
 
 register = template.Library()
 
@@ -50,3 +52,8 @@ def paginator_filter(value, arg='+'):
         res2 = list(range(value-4, value))
         return list(zip(res,res2))
     return res
+
+@register.filter("markdown")
+def markdown_filter(value):
+    return md.markdown(value, extentions=['extra'])
+

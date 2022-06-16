@@ -9,11 +9,11 @@ def home(request):
     q = request.GET.get('q')
     if q == 'top':
         # TODO: order by comments count and ...
-        query = Post.objects.all().order_by('?')
+        query = Post.objects.filter(is_pub=True).order_by('?')
     elif q == 'oldest':
-        query = Post.objects.all().order_by('date')
+        query = Post.objects.filter(is_pub=True).order_by('date')
     else:
-        query = Post.objects.all().order_by('-date')
+        query = Post.objects.filter(is_pub=True).order_by('-date')
 
     p = Paginator(query, 25)
     page = p.get_page(num_page)
@@ -47,8 +47,33 @@ def search_view(request):
     text = request.GET.get('text')
     # TODO: use another features to order posts
     if text:
-        query = Post.objects.filter(title__icontains=text).order_by('-date')
+        query = Post.objects.filter(title__icontains=text, is_pub=True).order_by('-date')
         p = Paginator(query, 25)
         page = p.get_page(num_page)
         return render(request, 'search.html', {'page': page, 'title': 'جستجو'})
     return render(request, 'search.html', {'title': 'جستجو'})
+
+
+def post_view(request, slug):
+    query = Post.objects.filter(slug=slug)
+
+    if (query.exists() and request.user.is_staff) or (query.filter(is_pub=True).exists()):
+        post = query.first()
+        related = []
+
+        if tags:=post.tags.all():
+            for tag in tags:
+                if related:
+                    related = related | tag.posts
+                else:
+                    related = tag.posts
+        
+        if count:=len(set(related)) < 6:
+            tops = Post.objects.filter(is_pub=True).order_by('-date')
+            related = related|tops[:6-count]
+
+        related = related[:6]
+
+        return render(request, 'post_view.html', {'post': post, 'title': post.title,'related': set(related)})
+
+    raise Http404
