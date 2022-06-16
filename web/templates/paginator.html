@@ -1,0 +1,65 @@
+{% load posts_extra %}
+<div class="paginator flex w-full text-slate-600 items-center justify-center">
+    <a
+    {% if page.has_previous %}
+        href="?page={{page.previous_page_number}}"
+        title="صفحه قبلی"
+        name="صفحه قبلی"
+        class="p-2 mx-1 hover:bg-slate-100 focus-visible:bg-slate-100 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
+    {% else %}
+        title="صفحه قبلی وجود ندارد"
+        name="صفحه قبلی وجود ندارد"
+        class="p-2 mx-1 focus-visible:bg-slate-100 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10 opacity-50"
+    {% endif %}
+    ><i class="bi bi-arrow-right"></i
+    ></a>
+
+
+    {% for i,j in page.number|pg:'-' %}
+        {% if i not in page.paginator.page_range %}
+
+            <a
+            href="?page={{j}}"
+            title="صفحه {{j}}"
+            name="صفحه {{j}}"
+            class="p-2 mx-1 hover:bg-slate-100 focus-visible:bg-slate-100 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
+            >{{j}}</a>
+
+        {% endif %}
+    {% endfor %}
+
+    <a
+        href="?page={{page.number}}"
+        title="صفحه {{page.number}}"
+        name="صفحه {{page.number}}"
+        class="p-2 mx-1 bg-slate-100 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
+    >{{page.number}}</a>
+
+    {% for i in page.number|pg %}
+        {% if i in page.paginator.page_range %}
+
+            <a
+            href="?page={{i}}"
+            title="صفحه {{i}}"
+            name="صفحه {{i}}"
+            class="p-2 mx-1 hover:bg-slate-100 focus-visible:bg-slate-100 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
+            >{{i}}</a>
+
+        {% endif %}
+    {% endfor %}
+
+    <a
+    {% if page.has_next %}
+        href="?page={{page.next_page_number}}"
+        title="صفحه بعدی"
+        name="بعدی صفخه"
+        class="p-2 mx-1 hover:bg-slate-100 focus-visible:bg-slate-100 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
+    {% else %}
+        title="صفحه بعدی وجود ندارد"
+        name="صفحه بعدی وجود ندارد"
+        class="p-2 mx-1 focus-visible:bg-slate-100 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10 opacity-50"
+    {% endif %}
+    
+    ><i class="bi bi-arrow-left"></i></a>
+
+</div>
