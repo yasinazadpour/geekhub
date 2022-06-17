@@ -1,9 +1,10 @@
-from http.client import HTTPResponse
+from django.contrib.auth import get_user_model, login
 from django.http import Http404, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
 from .models import Post, Tag
 
+User = get_user_model()
 
 def home(request):
     num_page = request.GET.get('page', 1)
@@ -88,3 +89,23 @@ def about_view(request):
         return render(request, 'about.html', {'post': post, 'title': 'درباره'})
 
     return HttpResponse("ببخشید هنوز این صفحه رو نساختیم :(")
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    if request.method == 'POST':
+        passwd = request.POST.get('password')
+        username = request.POST.get('username')
+
+        if User.objects.filter(username=username).exists():
+            user = User.objects.get(username=username)
+
+            if user.check_password(passwd):
+                login(request, user)
+                return redirect('/')
+            
+            return render(request, 'login.html', {'title': 'ورود', 'msg': {'password': 'گذرواژه وارد شده صحیح نمی باشد.'}})
+
+        return render(request, 'login.html', {'title': 'ورود', 'msg': {'username': 'کاربری با نام کاربری وارد شده وجود ندارد.'}})
+
+    return render(request, 'login.html', {'title': 'ورود'})
