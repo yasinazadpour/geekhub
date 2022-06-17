@@ -1,5 +1,8 @@
+from PIL import Image
+import numpy as np
 from django.contrib.auth import get_user_model, login
-from accounts.forms import JoinForm
+from django.contrib.auth.decorators import login_required
+from accounts.forms import JoinForm, UpdateUserForm
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
@@ -139,3 +142,33 @@ def join_view(request):
         return render(request, 'join.html', {'title': 'عضویت', 'form': form})
 
     return render(request, 'join.html', {'title': 'عضویت'})
+
+@login_required(login_url="/login")
+def me_view(request):
+    if request.method == 'POST':
+        user = request.user
+        data = {
+            'username': user.username,
+            'email': user.email,
+            'name': user.name,
+        }
+        request.POST = data|clean_data(request.POST)
+        form = UpdateUserForm(request.POST, request.FILES, instance=user)
+
+        if form.is_valid():
+            image = request.FILES.get('image')
+            form.save()
+            if image:
+                image = np.array(Image.open(image))
+                user.set_image(image)
+        print(form.errors.as_text())
+        return render(request, 'me_view.html', {'title': 'پروفایل', 'form': form})
+
+    return render(request, 'me_view.html', {'title': 'پروفایل'})
+
+def clean_data(data):
+    newData = {}
+    for key,value in data.items():
+        newData[key] = value[0] if isinstance(value, list) else value
+    
+    return newData

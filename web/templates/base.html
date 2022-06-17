@@ -20,7 +20,7 @@
                     </div>
                     <div class="flex flex-col mr-3 xl:hidden w-2/3">
                         <span class="truncate ">{{request.user.name}}</span>
-                        <span class="text-slate-600 truncate pl-5">{{request.user.email}}</span>
+                        <span class="text-slate-600 truncate pl-5 text-base">{{request.user.email}}</span>
                     </div>
                     </a>
                 </li>
@@ -30,7 +30,9 @@
         </ul>
         
         <div class="absolute left-3 xl:hidden flex items-center">
-            <button title="نمایش برچسب ها" onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').addClass('overflow-hidden')"><i class="bi bi-hash py-1 text-2xl block px-2 text-slate-700"></i></button>
+            {% if not title %}
+                <button title="نمایش برچسب ها" onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').addClass('overflow-hidden')"><i class="bi bi-hash py-1 text-2xl block px-2 text-slate-700"></i></button>
+            {% endif %}
             <a title="شروع جستجو" href="/search" ><i class="bi bi-search py-1 text-lg block pl-4 pr-2 text-slate-700" ></i></a>
             <button onclick="$('#more').toggleClass('active');$('#header').toggleClass('h-56');" id="more" class="w-6">
                 <div class="h-[2px] w-full rounded-full bg-slate-700"></div>
