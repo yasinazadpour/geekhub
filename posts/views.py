@@ -181,7 +181,23 @@ def change_password(request):
         
     return render(request, 'password_change.html', {'title': 'تعویض گذرواژه'})
 
-    
+def delete_account(request):
+    user = request.user
+    if user.is_authenticated:
+        if request.method == 'POST':
+            password = request.POST.get('password')
+            is_valid = user.check_password(password)
+
+            if is_valid:
+                user.delete()
+                return redirect('/')
+
+            return render(request, 'delete_account.html', {'title': 'حذف حساب کاربری','message': 'گذرواژه وارد شده صحیح نیست.'})
+
+        return render(request, 'delete_account.html',{'title': 'حدف حساب کاربری'})
+        
+    return redirect('/')
+
 
 def clean_data(data):
     newData = {}

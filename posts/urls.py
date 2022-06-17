@@ -13,5 +13,6 @@ urlpatterns = [
     path('join', join_view, name='join'),
     path('me', me_view, name='me'),
     path('change-password', change_password, name='change_password'),
+    path('delete-account', delete_account, name='delete_account'),
     path('<slug>', post_view, name='post'),
 ]
