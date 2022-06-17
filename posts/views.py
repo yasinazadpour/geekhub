@@ -1,13 +1,17 @@
-from PIL import Image
 import numpy as np
-from django.contrib.auth import get_user_model, login, logout
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.decorators import login_required
 from accounts.forms import JoinForm, UpdateUserForm
+from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.sessions.models import Session
+from django.core.paginator import Paginator
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
-from django.core.paginator import Paginator
+from django.views.decorators.http import require_POST
+from PIL import Image
+
 from .models import Post, Tag
+
 
 User = get_user_model()
 
@@ -202,6 +206,20 @@ def log_out(request):
     logout(request) 
     return redirect('/')
 
+
+@require_POST
+def log_out_all(request):
+    user = request.user
+    if user.is_authenticated:
+        my_session_key = request.session.session_key
+        for s in Session.objects.exclude(session_key=my_session_key):
+            data = s.get_decoded()
+            if data.get('_auth_user_id') == str(user.pk):
+                s.delete()
+
+        return redirect('/me')
+        
+    return redirect('/')
 
 def clean_data(data):
     newData = {}
