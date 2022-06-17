@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 from django.contrib.auth import get_user_model, login
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from accounts.forms import JoinForm, UpdateUserForm
 from django.http import Http404, HttpResponse
@@ -161,10 +162,26 @@ def me_view(request):
             if image:
                 image = np.array(Image.open(image))
                 user.set_image(image)
-        print(form.errors.as_text())
+
         return render(request, 'me_view.html', {'title': 'پروفایل', 'form': form})
 
     return render(request, 'me_view.html', {'title': 'پروفایل'})
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        
+        if form.is_valid():
+            user = form.save()
+            login(request,user)
+            return redirect('/me')
+
+        return render(request, 'password_change.html', {'title': 'تعویض گذرواژه', 'form': form})
+        
+    return render(request, 'password_change.html', {'title': 'تعویض گذرواژه'})
+
+    
 
 def clean_data(data):
     newData = {}

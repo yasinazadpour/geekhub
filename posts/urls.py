@@ -12,5 +12,6 @@ urlpatterns = [
     path('login', login_view, name='login'),
     path('join', join_view, name='join'),
     path('me', me_view, name='me'),
+    path('change-password', change_password, name='change_password'),
     path('<slug>', post_view, name='post'),
 ]
