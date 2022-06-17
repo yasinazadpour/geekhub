@@ -101,3 +101,5 @@ ENV/
 # IDE
 .vscode
 
+web/media/users/*
+web/media/posts/*
