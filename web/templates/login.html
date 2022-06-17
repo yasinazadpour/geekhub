@@ -2,19 +2,19 @@
 <html lang="fa" dir="rtl">
     {% include './head.html' %}
 <body class="">
-    <main class="overflow-hidden w-full h-screen flex justify-between items-center flex-col">
+    <main class="overflow-auto w-full h-screen flex justify-between items-center flex-col">
         <span></span>
-        <form action="" method="POST" class="border-[1px] flex flex-col items-center px-4 py-6 rounded-xl sm:border-2">
+        <form action="" method="POST" class="border-[1px] flex flex-col items-center px-4 py-6 rounded-xl sm:border-2 my-6">
             <h1 id="title" class="text-3xl">ورود</h1>
             <p id="about" class="mt-2 text-gray-500">وارد حساب کاربری خود در سیستم شوید</p>
 
             <div class="w-[20rem] mt-4">
-                <input value="{{request.POST.username}}" autocomplete="username" name="username" type="text" id="usernameInput" class="bg-gray-100 px-3 py-2 rounded-xl w-full" placeholder="نام کاربری" required>
+                <input dir="auto" value="{{request.POST.username}}" autocomplete="username" name="username" type="text" id="usernameInput" class="bg-gray-100 px-3 py-2 rounded-xl w-full" placeholder="نام کاربری" required>
                 <span id="usernameMessage" class="px-3 text-red-500 text-sm">{{msg.username}}</span>
             </div>
 
             <div class="w-[20rem] mt-4">
-                <input name="password" autocomplete="current-password" type="password" id="passwordInput" class="bg-gray-100 px-3 py-2 rounded-xl w-full" placeholder="گذرواژه" required>
+                <input dir="auto" name="password" autocomplete="current-password" type="password" id="passwordInput" class="bg-gray-100 px-3 py-2 rounded-xl w-full" placeholder="گذرواژه" required>
                 <span id="passwordMessage" class="px-3 text-red-500 text-sm min-h-">{{msg.password}}</span>
             </div>
             {% csrf_token %}

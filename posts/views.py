@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model, login
+from accounts.forms import JoinForm
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.core.paginator import Paginator
@@ -93,6 +94,7 @@ def about_view(request):
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('/')
+
     if request.method == 'POST':
         passwd = request.POST.get('password')
         username = request.POST.get('username')
@@ -109,3 +111,31 @@ def login_view(request):
         return render(request, 'login.html', {'title': 'ورود', 'msg': {'username': 'کاربری با نام کاربری وارد شده وجود ندارد.'}})
 
     return render(request, 'login.html', {'title': 'ورود'})
+
+def join_view(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+
+    if request.method == 'POST':
+
+        passwd = request.POST.get('password')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        data = {
+            'password1': passwd, 
+            'password2': passwd,
+            'email': email,
+            'username': username.lower(),
+            'name': username.lower()
+        }
+
+        form = JoinForm(data)
+
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/me')
+            
+        return render(request, 'join.html', {'title': 'عضویت', 'form': form})
+
+    return render(request, 'join.html', {'title': 'عضویت'})
