@@ -1,6 +1,6 @@
 from PIL import Image
 import numpy as np
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from accounts.forms import JoinForm, UpdateUserForm
@@ -196,6 +196,10 @@ def delete_account(request):
 
         return render(request, 'delete_account.html',{'title': 'حدف حساب کاربری'})
         
+    return redirect('/')
+
+def log_out(request):
+    logout(request) 
     return redirect('/')
 
 
