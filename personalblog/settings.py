@@ -124,6 +124,9 @@ STATICFILES_DIRS = [BASE_DIR/'web/static',]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'web/media'
 
+USER_PATH = 'web/media/users'
+USER_IMAGE_SIZE = (500,500)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

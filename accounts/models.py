@@ -37,7 +37,7 @@ class MyUser(AbstractUser):
                 'unique': _("کاربری با این آدرس ایمیل از قبل وجود دارد."),
         },
     )
-    image = models.ImageField(_('عکس'), blank=True, upload_to='users/')
+    image = models.ImageField(_('عکس'), default='users/default.png', upload_to='users/')
     first_name = last_name = None  # use name instead of first_name and last_name
 
     def get_full_name(self):
