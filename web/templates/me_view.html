@@ -13,7 +13,7 @@
         این عکس را کاربران دیگر هم میتوانند ببینند
       </p>
       {% if form.errors.image %}
-      <p class="text-red-500 py-1">{{form.errors.image}}</p>
+      <p class="text-red-500 py-1">{{form.errors.image|first}}</p>
       {% else %}
       <p class="py-1 text-gray-700">
         سایز پیشنهادی: مربع، با کمتر از ۱۰۰۰ پیکسل در طول و عرض. فرمت های قابل
@@ -49,6 +49,7 @@
     <div class="w-3/4">
       <h2 class="py-1 text-xl">نام کاربری</h2>
       <input
+        required
         value="{{request.user.username}}"
         type="text"
         name="username"
@@ -81,6 +82,7 @@
     <div class="w-3/4">
       <h2 class="py-1 text-xl">نام کامل</h2>
       <input
+        required
         value="{{request.user.name}}"
         type="text"
         name="name"
@@ -110,8 +112,9 @@
     <div class="w-3/4">
       <h2 class="py-1 text-xl">ایمیل</h2>
       <input
+        required
         value="{{request.user.email}}"
-        type="text"
+        type="email"
         name="email"
         placeholder="نشانی ایمیل"
         class="py-1 border-b-2 w-full focus:border-gray-500"
