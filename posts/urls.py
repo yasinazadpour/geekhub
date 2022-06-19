@@ -15,6 +15,7 @@ urlpatterns = [
     path('change-password', change_password, name='change_password'),
     path('add-comment', add_comment, name='add_comment'),
     path('delete-account', delete_account, name='delete_account'),
+    path('reset-password', reset_password, name='reset_password'),
     path('logout-all', log_out_all, name='log_out_all'),
     path('logout', log_out, name='login'),
     path('<slug>', post_view, name='post'),

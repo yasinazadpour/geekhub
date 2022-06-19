@@ -20,8 +20,9 @@
             {% csrf_token %}
             <button type="submit" class="active:scale-[0.98] bg-gray-900 px-8 py-3 rounded-full text-lg text-white w-full mt-8 active:opacity-90">ورود</button>
             
-            <div class="help mt-3">
-                <a href="/join" class="text-indigo-500">ساخت حساب کاربری</a>
+            <div class="help mt-3 text-center">
+                <p class="mb-1"><a href="/reset-password" class="text-indigo-500">بازیابی گذرواژه</a></p>
+                <p><a href="/join" class="text-indigo-500">ساخت حساب کاربری</a></p>
             </div>
         </form>
         <span dir="ltr" id="copytihgt" class="mb-4 text-gray-700 text-sm">© site.com {% now "Y" %}. All right reserved.</span>

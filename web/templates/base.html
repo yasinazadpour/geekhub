@@ -14,7 +14,7 @@
             <li class="hidden xl:block"><a class="py-3 px-4 block" href="/search">جستجو</a></li>
             {% if request.user.is_authenticated %}
                 <li class="flex w-full">
-                    <a href="/me" class="flex mr-4" title="نمایش پروفایل">
+                    <a href="/me" class="flex mr-4 w-full" title="نمایش پروفایل">
                     <div class="h-14 xl:h-10 xl:w-10 overflow-hidden rounded-full w-14">
                         <img src="{{request.user.image.url}}" alt="عکس پروفایل من" class="h-full w-full">
                     </div>

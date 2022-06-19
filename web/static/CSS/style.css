@@ -164,7 +164,7 @@ article code:not(code[class^="language"]){
 article li p{
   display: inline;
 }
-#tags a{
+#comments a{
   color: #6366f1 !important;
 }
 .res:last-child #related{

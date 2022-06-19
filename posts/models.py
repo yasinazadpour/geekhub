@@ -1,3 +1,5 @@
+from uuid import uuid4
+from datetime import datetime, timedelta, timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core import validators
@@ -74,3 +76,33 @@ class Link(models.Model):
 
     def __str__(self):
         return self.name
+
+class Token(models.Model):
+    id = models.CharField(_('توکن'), max_length=200, unique=True, primary_key=True)
+    user = models.ForeignKey('accounts.MyUser', verbose_name=_("کاربر"), on_delete=models.CASCADE, related_name="user_tokens")
+    date = models.DateTimeField(_("تاریخ"), auto_now=True)
+    
+    @classmethod
+    def generate(cls, user):
+        id = str(uuid4()).replace('-','')
+        cls.objects.filter(user=user).delete()
+        return cls.objects.create(id=id, user=user)
+
+    @classmethod
+    def check_token(cls, token):
+        try:
+
+            token = cls.objects.get(pk=token)
+            now = datetime.now(tz=timezone.utc)
+            return token if now - token.date < timedelta(minutes=5) else False
+            
+        except:
+            return False
+
+    class Meta:
+        verbose_name = _('توکن')
+        verbose_name_plural = _('توکن ها')
+
+    def __str__(self):
+        return self.user.username
+

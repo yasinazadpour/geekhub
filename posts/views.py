@@ -2,7 +2,7 @@ import numpy as np
 from accounts.forms import JoinForm, UpdateUserForm
 from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.contrib.sessions.models import Session
 from django.core.paginator import Paginator
 from django.http import Http404, HttpResponse
@@ -11,7 +11,7 @@ from django.views.decorators.http import require_POST
 from PIL import Image
 from django.http.response import JsonResponse
 from .forms import CommentForm
-from .models import Post, Tag
+from .models import Post, Tag, Token
 
 User = get_user_model()
 
@@ -173,15 +173,36 @@ def me_view(request):
 
 
 def change_password(request):
+    if request.method == 'GET':
+        token = request.GET.get('token')
+        is_valid = Token.check_token(token)
+        
+        if is_valid:
+            return render(request, 'password_change.html', {'title': 'تعویض گذرواژه', 'can_reset': True})
+            
+        if token is None:
+            return render(request, 'password_change.html', {'title': 'تعویض گذرواژه'})
+            
+        return render(request, 'password_change.html', {'title': 'تعویض گذرواژه', 'msg': 'توکن منقضی شده است.'})
+    
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
+        token = request.POST.get('token')
+        token = Token.check_token(token)
+        if token:
+            form = SetPasswordForm(token.user, request.POST)
+        else :
+            form = PasswordChangeForm(request.user, request.POST)
         
         if form.is_valid():
             user = form.save()
-            login(request,user)
-            return redirect('/me')
-
-        return render(request, 'password_change.html', {'title': 'تعویض گذرواژه', 'form': form})
+            
+            if request.user.is_authenticated:
+                login(request, user)
+                return redirect('/me')
+                
+            return redirect('/login')
+            
+        return render(request, 'password_change.html', {'title': 'تعویض گذرواژه', 'form': form,'can_reset': bool(token)})
         
     return render(request, 'password_change.html', {'title': 'تعویض گذرواژه'})
 
@@ -202,6 +223,23 @@ def delete_account(request):
         
     return redirect('/')
 
+def reset_password(request):
+    user = request.user
+    if user.is_authenticated :
+        print(f"token: {Token.generate(user).pk}")
+        return render(request, 'reset_password.html',{'title': 'بازیابی گذرواژه','success': True})
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        query = User.objects.filter(username=username)
+        if query.exists():
+            print(f"token: {Token.generate(query.first()).pk}")
+            return render(request, 'reset_password.html',{'title': 'بازیابی گذرواژه','success': True})
+        
+        return render(request, 'reset_password.html',{'title': 'بازیابی گذرواژه','msg': 'کاربری با نام کاربری وارد شده وجود ندارد.','username': username})
+
+    return render(request, 'reset_password.html',{'title': 'بازیابی گذرواژه'})
+        
 def log_out(request):
     logout(request) 
     return redirect('/')
