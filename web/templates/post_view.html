@@ -19,7 +19,13 @@
                   </a>
               {% endfor %}
               </span>
-          <img src="{{post.image.url}}" alt="عکس پست"  class="w-full aspect-video max-h-[none]"/>
+          <img src="{{post.image.url}}" alt="عکس پست"  class="w-full aspect-video max-h-[none] mb-0"/>
+          <span class="text-slate-500 text-sm mb-2 block">
+            <span class="mx-1">{{post.date|tsince|cut:'ها'}} پیش</span>
+            <span class="text-gray-400 mx-1">•</span>
+            <span class="mx-1">{{post.text|markdown|wordcount|readtime}} دقیقه خواندن</span>
+            
+            </span>
           {{post.text|markdown}}
 
           <div class="share flex w-full items-center justify-center mb-4 mt-6">
@@ -32,6 +38,9 @@
           
           <div class="w-full flex justify-between mt-4 px-6">
               <span class="text-slate-600"><span class="text-slate-800">{{post.views}}</span> بازدید</span>
+              {% if request.user.is_superuser %}
+                <a class="text-indigo-600 border-[1px] sm:border-2 rounded-full px-2 border-indigo-500" href="/admin/posts/post/{{post.pk}}/change/">ویرایش</a>
+              {% endif %}
               <button onclick="$('#comments').toggleClass('hidden xl:hidden');$('body').toggleClass('overflow-hidden xl:overflow-auto');" title="نمایش نظرات" class="text-slate-600"><span class="text-slate-800">{{post.comments.count}}</span> نظر</button>
           </div>
       </article>

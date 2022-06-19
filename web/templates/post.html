@@ -9,7 +9,7 @@
             <a href="/{{post.slug}}" class="hover:underline focus-visible:underline block" >{{post.title}}</a>
             </h2>
             <p class="my-1 text-gray-800" dir="rtl">
-            {{post.text|truncatechars:100}}
+            {{post.text|truncatechars:100|markdown|striptags}}
             </p>
         </div>
 

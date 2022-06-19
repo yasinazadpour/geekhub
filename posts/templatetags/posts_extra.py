@@ -1,3 +1,4 @@
+from math import ceil
 from django import template
 from django.utils.timesince import timesince
 import markdown as md
@@ -56,4 +57,8 @@ def paginator_filter(value, arg='+'):
 @register.filter("markdown")
 def markdown_filter(value):
     return md.markdown(value, extentions=['extra'])
+
+@register.filter("readtime")
+def readtime_filter(value):
+    return ceil(value/200)
 
