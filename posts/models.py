@@ -69,7 +69,7 @@ class Tag(models.Model):
 class Link(models.Model):
     name = models.CharField(_("نام"), help_text=_("برای نشان دادن ایکون مناسب استفاده می شود"), max_length=50)
     about = models.CharField(_("درباره"), help_text=_("توضیحاتی درباره پیوند"), max_length=50)
-    url = models.URLField(_("url"), max_length=200)
+    url = models.URLField(_("url"))
 
 
     class Meta:
