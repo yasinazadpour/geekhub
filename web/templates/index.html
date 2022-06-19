@@ -2,88 +2,87 @@
 {% load posts_extra %}
 
 {% block main %}
-      <main class="p-4 sm:p-6 max-w-6xl w-full">
-        <header class="flex items-center justify-between py-2">
-          <h1 class="text-lg sm:text-xl">
-            {% if request.GET.q == 'top' %}
-            برترین ها
-            {% elif request.GET.q == 'oldest' %}
-            قدیمی ترین ها
-            {% else %}
-            آخرین ها
-            {% endif %}
-          </h1>
-          <div class="flex">
-            <button
-              class="relative px-4 py-1 bg-gray-100 mr-1 rounded-full text-slate-800 z-10"
-              onclick="$('#options').toggleClass('opacity-0 pointer-events-none scale-95')"
-            >
-            {% if request.GET.q == 'top' %}
-            برترین ها
-            {% elif request.GET.q == 'oldest' %}
-            قدیمی ترین ها
-            {% else %}
-            آخرین ها
-            {% endif %} <i class="bi-chevron-down bi mr-1"></i>
-              <ul
-                id="options"
-                class="more absolute top-full rounded-lg bg-gray-50 w-44 left-0 mt-2 overflow-hidden scale-95 opacity-0 pointer-events-none border-slate-200 border-[1px]"
+<main class="flex flex-col items-center justify-center xl:flex-row w-full xl:items-start">
+  <main class="p-4 sm:p-6 max-w-6xl w-full">
+    <header class="flex items-center justify-between py-2">
+      <h1 class="text-lg sm:text-xl">
+        {% if request.GET.q == 'top' %}
+        برترین ها
+        {% elif request.GET.q == 'oldest' %}
+        قدیمی ترین ها
+        {% else %}
+        آخرین ها
+        {% endif %}
+      </h1>
+      <div class="flex">
+        <button
+          class="relative px-4 py-1 bg-gray-100 mr-1 rounded-full text-slate-800 z-10"
+          onclick="$('#options').toggleClass('opacity-0 pointer-events-none scale-95')"
+        >
+        {% if request.GET.q == 'top' %}
+        برترین ها
+        {% elif request.GET.q == 'oldest' %}
+        قدیمی ترین ها
+        {% else %}
+        آخرین ها
+        {% endif %} <i class="bi-chevron-down bi mr-1"></i>
+          <ul
+            id="options"
+            class="more absolute top-full rounded-lg bg-gray-50 w-44 left-0 mt-2 overflow-hidden scale-95 opacity-0 pointer-events-none border-slate-200 border-[1px]"
+          >
+            <li>
+              <a
+                class="block py-3 px-5 hover:bg-gray-100 focus-visible:bg-gray-100"
+                href="?q=latests"
+                >آخرین ها</a
               >
-                <li>
-                  <a
-                    class="block py-3 px-5 hover:bg-gray-100 focus-visible:bg-gray-100"
-                    href="?q=latests"
-                    >آخرین ها</a
-                  >
-                </li>
-                <li>
-                  <a
-                    class="block py-3 px-5 hover:bg-gray-100 focus-visible:bg-gray-100"
-                    href="?q=top"
-                    >برترین ها</a
-                  >
-                </li>
-                <li>
-                  <a
-                    class="block py-3 px-5 hover:bg-gray-100 focus-visible:bg-gray-100"
-                    href="?q=oldest"
-                    >قدیمی ترین ها</a
-                  >
-                </li>
-              </ul>
-            </button>
-          </div>
-        </header>
-        <div id="posts">
-          {% for post in page.object_list %}
+            </li>
+            <li>
+              <a
+                class="block py-3 px-5 hover:bg-gray-100 focus-visible:bg-gray-100"
+                href="?q=top"
+                >برترین ها</a
+              >
+            </li>
+            <li>
+              <a
+                class="block py-3 px-5 hover:bg-gray-100 focus-visible:bg-gray-100"
+                href="?q=oldest"
+                >قدیمی ترین ها</a
+              >
+            </li>
+          </ul>
+        </button>
+      </div>
+    </header>
+    <div id="posts">
+      {% for post in page.object_list %}
 
-          {# a post #}
-          {% include './post.html' with post=post %}
+      {# a post #}
+      {% include './post.html' with post=post %}
 
-          {% endfor %}
-          
-        </div>
-        
-        {% include './paginator.html' with page=page %}
+      {% endfor %}
+      
+    </div>
+    
+    {% include './paginator.html' with page=page %}
 
-      </main>
-      <aside
+  </main>
+  <aside class="xl:sticky xl:top-14 w-full xl:w-[unset] xl:px-3 xl:max-w-[28rem] sm:px-10 px-4 min-w-[25vw]">
+    {% if tags %}  
+      <div
         id="tags"
-        class="rounded-tr-2xl rounded-tl-2xl fixed h-5/6 -bottom-full xl:bottom-[unset] xl:block xl:sticky xl:top-14 min-w-[17rem] w-full xl:max-w-[22rem] xl:max-h-screen overflow-hidden z-30 xl:z-10 bg-white xl:rounded-2xl xl:my-4 xl:mx-2 xl:border-[2px] border-slate-100"
+        class="h-5/6 left-0 rounded-tr-2xl rounded-tl-2xl fixed xl:relative xl:bottom-[unset] xl:block w-full xl:max-h-screen overflow-hidden z-30 xl:z-10 bg-white xl:rounded-2xl xl:my-4 border-[1px] sm:border-2 border-slate-100 -bottom-full"
       >
         <button
           onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').removeClass('overflow-hidden')"
           class="p-2 w-full flex items-center justify-center xl:w-auto xl:h-full xl:right-0 xl:absolute xl:hidden"
         >
-          <div
-            id="close"
-            class="fixed w-full top-0 left-0 bg-[#0000001a] h-1/6 backdrop-blur opacity-0 pointer-events-none"
-          ></div>
           <div class="rounded-full bg-gray-200 w-20 h-1 xl:h-20 xl:w-1"></div>
         </button>
 
-        <h1 class="my-2 text-3xl text-slate-700 xl:mx-2">برچسب ها</h1>
-        <ul class="h-[calc(100vh-100px)] overflow-auto">
+        <h1 class="text-3xl text-slate-700 m-2">برچسب ها</h1>
+        <ul class="max-h-[50vh] overflow-auto">
           {% for tag in tags %}
           <li>
             <a
@@ -100,5 +99,21 @@
           </li>
           {% endfor %}
         </ul>
-      </aside>
+      </div>
+    {% endif %}
+    
+    {% if hotlinks %}
+      <div class=" w-full  xl:max-h-screen overflow-hidden bg-white rounded-2xl my-4 border-[2px] border-slate-100 pb-3" id="hotlinks">
+        <h1 class="m-3 text-2xl">لینک های داغ 🔥 </h1>
+        <ul class="overflow-auto">
+          {% for hlink in hotlinks %}
+            <li class="w-full px-2 mb-2">
+              <a title="باز کردن لینک" href="{{hlink.url}}" target="_blank" class="p-3 hover:bg-gray-100 focus-visible:bg-gray-100 block  rounded-xl border-2 text-md w-full">{{hlink.name}}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </aside>
+</main>
 {% endblock main %}

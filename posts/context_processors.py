@@ -1,6 +1,7 @@
-from .models import Link, Tag
+from .models import HotLink, Link, Tag
 
 
 def custom(request):
     return {'links': Link.objects.all(),
-            'tags': Tag.objects.all()}
+            'tags': Tag.objects.all(),
+            'hotlinks': HotLink.objects.all()}

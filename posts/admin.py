@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Link, Post, Comment, Tag, Token
+from .models import Link, Post, Comment, Tag, Token, HotLink
 
 
 @admin.register(Post)
@@ -16,3 +16,4 @@ class CommentAdmin(admin.ModelAdmin):
 admin.site.register(Tag)
 admin.site.register(Link)
 admin.site.register(Token)
+admin.site.register(HotLink)

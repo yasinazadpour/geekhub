@@ -15,6 +15,7 @@ class Post(models.Model):
     is_pub = models.BooleanField(_("منتشر شده"), default=False)
     tags = models.ManyToManyField('Tag', verbose_name=_("برچسب ها"), blank=True, related_name='taged_posts')
     views = models.IntegerField(_("بازدید ها"), default=0)
+    
     @property
     def comments(self):
         return self.post_comments.all()
@@ -76,6 +77,19 @@ class Link(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class HotLink(models.Model):
+    name = models.CharField(_("نام"), max_length=200)
+    url = models.URLField(_("url"))
+
+    class Meta:
+        verbose_name = _('لینک داغ')
+        verbose_name_plural = _('لینک های داغ')
+
+    def __str__(self):
+        return self.name
+
 
 class Token(models.Model):
     id = models.CharField(_('توکن'), max_length=200, unique=True, primary_key=True)
