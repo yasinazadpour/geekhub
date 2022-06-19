@@ -1,10 +1,16 @@
 from uuid import uuid4
 from datetime import datetime, timedelta, timezone
+from django.forms import ValidationError
 from django.utils import timezone as djtimezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core import validators
 from django.utils.deconstruct import deconstructible
+
+def slug_validator(value):
+    urls = ['search', 'login', 'join','me','change-password','reset-password','add-comment','delete-account','logout-all','logout']
+    if value in urls:
+        raise ValidationError('این کد صفحه مجاز نیست.')
 
 class Post(models.Model):
     user = models.ForeignKey('accounts.MyUser', verbose_name=_("نویسنده"), on_delete=models.CASCADE, related_name="user_posts")
@@ -12,7 +18,7 @@ class Post(models.Model):
     image = models.ImageField(_("عکس"), help_text=_("بهتر است نسبت عکس 16:9 باشد."), upload_to='posts/')
     text =  models.TextField(_("متن"), max_length=20_000)
     date = models.DateTimeField(_("تاریخ"), default=djtimezone.now)
-    slug = models.CharField(_("کد صفحه"), max_length=50, unique=True)
+    slug = models.CharField(_("کد صفحه"), max_length=50, unique=True, validators=[slug_validator])
     is_pub = models.BooleanField(_("منتشر شده"), default=False)
     tags = models.ManyToManyField('Tag', verbose_name=_("برچسب ها"), blank=True, related_name='taged_posts')
     views = models.IntegerField(_("بازدید ها"), default=0)
