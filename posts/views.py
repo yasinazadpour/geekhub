@@ -70,6 +70,8 @@ def post_view(request, slug):
 
     if (query.exists() and request.user.is_staff) or (query.filter(is_pub=True).exists()):
         post = query.first()
+        post.views += 1
+        post.save()
         related = []
 
         if tags:=post.tags.all():

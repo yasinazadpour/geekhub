@@ -14,7 +14,7 @@ class Post(models.Model):
     slug = models.CharField(_("کد صفحه"), max_length=50, unique=True)
     is_pub = models.BooleanField(_("منتشر شده"), default=False)
     tags = models.ManyToManyField('Tag', verbose_name=_("برچسب ها"), blank=True, related_name='taged_posts')
-
+    views = models.IntegerField(_("بازدید ها"), default=0)
     @property
     def comments(self):
         return self.post_comments.all()
