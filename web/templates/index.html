@@ -111,6 +111,11 @@
               <a title="باز کردن لینک" href="{{hlink.url}}" target="_blank" class="p-3 hover:bg-gray-100 focus-visible:bg-gray-100 block  rounded-xl border-2 text-md w-full">{{hlink.name}}</a>
             </li>
           {% endfor %}
+          {% if request.user.is_superuser %}
+          <li class="w-full px-2 mb-2">
+            <a title="افزودن لینک جدید" href="/admin/posts/hotlink/add/" class="p-3 hover:bg-gray-100 focus-visible:bg-gray-100 block  rounded-xl border-2 text-md w-full border-dashed"><i class="bi bi-plus-circle text-xl ml-3" ></i>افزودن لینک جدید</a>
+          </li>
+          {% endif %}
         </ul>
       </div>
     {% endif %}

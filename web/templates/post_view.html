@@ -21,7 +21,7 @@
               </span>
           <img src="{{post.image.url}}" alt="عکس پست"  class="w-full aspect-video max-h-[none] mb-0"/>
           <span class="text-slate-500 text-sm mb-2 block">
-            <span class="mx-1">{{post.date|tsince|cut:'ها'}} پیش</span>
+            <span title="{{post.date|date:'j M Y'}}" class="mx-1">{{post.date|tsince|cut:'ها'}} پیش</span>
             <span class="text-gray-400 mx-1">•</span>
             <span class="mx-1">{{post.text|markdown|wordcount|readtime}} دقیقه خواندن</span>
             
@@ -62,17 +62,17 @@
     </button>
     <h1 class="mt-2 text-3xl mb-1 mx-4 xl:mx-0">نظرات کاربران</h1>
     <div class="overflow-auto h-full px-2 pb-2 relative flex flex-col justify-center items-center" >
-    <div id="tagsContainer" class="overflow-auto h-full w-full">
+    <div id="commentsContainer" class="overflow-auto h-full w-full">
         {% for comment in post.comments %}
             {% if not comment.rep_to %}
-              <div id="{{comment.pk}}"class="last:mb-20 first:mt-2 px-2 py-2">
+              <div id="{{comment.pk}}"class="last:mb-44 first:mt-2 px-2 py-2">
                 <div class="border-2 border-gray-100 rounded-lg  px-2 py-1 my-1">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center w-full overflow-hidden">
                       <img src="{{comment.user.image.url}}" alt="عکسِ {{comment.user.name}}  "class="h-12 w-12 rounded-full p-1 overflow-hidden" />
                       <div class="flex flex-col p-1 w-5/6">
                           <span class="text-md w-[80%] truncate">{{comment.user.name}}</span>
-                          <span class="text-gray-500 text-sm">
+                          <span title="{{comment.date|date:'j M Y'}}" class="text-gray-500 text-sm">
                             {{comment.date|tsince|cut:'ها'}} پیش
                             <button onclick="$('#repcontainer').removeClass('hidden');$('#repname').text('@{{comment.user.username|safe}}');$('#repto').attr('value','{{comment.pk}}');$('#repcontainer').attr('href','#{{comment.pk}}')" class="border-2 border-indigo-500 px-2 rounded-full text-indigo-500">پاسخ</button>
                             {% if request.user.is_superuser %}
@@ -97,7 +97,7 @@
                     <div class="flex flex-col w-[calc(100%-52px)] border-2 border-gray-100 rounded-lg  p-2 my-1">
                         <span class="text-md w-[80%] truncate"> {{res.user.name}} </span>
                         <span>
-                          <span class="text-gray-500 text-sm"> {{res.date|tsince|cut:'ها'}} پیش </span>
+                          <span title="title="{{res.date|date:'j M Y'}}"" class="text-gray-500 text-sm"> {{res.date|tsince|cut:'ها'}} پیش </span>
                           <span class="text-gray-400 mx-1">•</span>
                           <span class="text-gray-500 text-sm"> در پاسخ به<span dir="ltr" class="truncate text-indigo-500 ml-1">@{{comment.user.username}} </span>
                             <form method="POST" action="/admin/posts/comment/{{res.pk}}/delete/" class="inline">

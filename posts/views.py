@@ -25,7 +25,7 @@ def index(request):
     else:
         query = Post.objects.filter(is_pub=True).order_by('-date')
 
-    p = Paginator(query, 5)
+    p = Paginator(query, 25)
     page = p.get_page(num_page)
     return render(request, 'index.html', {'page': page})
 

@@ -8,10 +8,14 @@
     <header id="header" class="h-14 xl:h-14 fixed top-0 flex flex-col items-center xl:flex-row justify-between py-2 px-3 w-full z-20 border-b-[1px] xl:border-b-[2px] border-slate-100 bg-[#ffffffcc] backdrop-blur overflow-hidden" >
         <h1 class="text-xl mt-2 xl:mt-0"><a href="/" class="block">نام</a></h1>
     
-        <ul id="items" class="w-full xl:w-min xl:relative flex flex-col items-center xl:flex-row text-xl overflow-hidden xl:overflow-visible h-40">
-            <li><a class="py-3 px-4 block" href="/">خانه</a></li>
-            <li><a class="py-3 px-4 block" href="/about">درباره</a></li>
-            <li class="hidden xl:block"><a class="py-3 px-4 block" href="/search">جستجو</a></li>
+        <ul id="items" class="w-full xl:w-min xl:relative flex flex-col items-center xl:flex-row text-xl overflow-hidden xl:overflow-visible">
+            <li class="w-full text-center hover:opacity-50"><a class="w-full py-3 px-4 block" href="/">خانه</a></li>
+            <li class="w-full text-center hover:opacity-50"><a class="w-full py-3 px-4 block" href="/about">درباره</a></li>
+            <li class="w-full text-center hover:opacity-50 hidden xl:block"><a class="w-full py-3 px-4 block" href="/search">جستجو</a></li>
+            {% if request.user.is_superuser %}
+                <li class="w-full text-center  hover:opacity-50"><a class="w-full py-3 px-4 block" href="/admin/">مدیریت</a></li>
+                <li class="w-full text-center hover:opacity-50 hidden xl:block"><a class="w-full py-3 px-4 block" href="/admin/posts/post/add/">نوشتن</a></li>
+            {% endif %}
             {% if request.user.is_authenticated %}
                 <li class="flex w-full">
                     <a href="/me" class="flex mr-4 w-full" title="نمایش پروفایل">
@@ -33,8 +37,11 @@
             {% if not title %}
                 <button title="نمایش برچسب ها" onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').addClass('overflow-hidden')"><i class="bi bi-hash py-1 text-2xl block px-2 text-slate-700"></i></button>
             {% endif %}
-            <a title="شروع جستجو" href="/search" ><i class="bi bi-search py-1 text-lg block pl-4 pr-2 text-slate-700" ></i></a>
-            <button onclick="$('#more').toggleClass('active');$('#header').toggleClass('h-56');" id="more" class="w-6">
+            <a title="شروع جستجو" href="/search" ><i class="bi bi-search py-1 text-lg block pl-4 pr-2 text-slate-700  " ></i></a>
+            {% if request.user.is_superuser %}
+                <a title="شروع نوشتن" href="/admin/posts/post/add/" ><i class="bi bi-plus-circle py-1 text-lg block pl-4 pr-2 text-slate-700  " ></i></a>
+            {% endif %}
+            <button onclick="$('#more').toggleClass('active');$('#header').toggleClass('{% if request.user.is_superuser %}h-[18rem]{% else %}h-56{% endif %}');" id="more" class="w-6 ">
                 <div class="h-[2px] w-full rounded-full bg-slate-700"></div>
                 <div class="h-[2px] w-full rounded-full bg-slate-700 my-2"></div>
                 <div class="h-[2px] w-full rounded-full bg-slate-700"></div>
@@ -100,6 +107,16 @@
                     {% endif %}
                 </a>
                 {% endfor %}
+                {% if request.user.is_superuser %}
+                <a
+                    href="/admin/posts/link/add/"
+                    target="_blank"
+                    title="افزودن لینک"
+                    rel="noopener noreferrer"
+                    class="transition-none px-1 hover:scale-110 focus-visible:scale-110 hover:text-indigo-500  focus-visible:text-indigo-500">
+                <i class="bi bi-plus-circle"></i>
+                </a>
+                {% endif %}
             </div>
         {% endif %}
     </footer>
