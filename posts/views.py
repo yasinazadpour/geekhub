@@ -9,9 +9,9 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 from PIL import Image
-
+from django.http.response import JsonResponse
+from .forms import CommentForm
 from .models import Post, Tag
-
 
 User = get_user_model()
 
@@ -220,6 +220,27 @@ def log_out_all(request):
         return redirect('/me')
         
     return redirect('/')
+
+
+@require_POST
+def add_comment(request):
+    user = request.user
+    if user.is_authenticated:
+        request.POST = clean_data(request.POST)|{'user': user}
+        form  = CommentForm(request.POST)
+        if form.is_valid():
+            c = form.save()
+            return JsonResponse({
+                'pk': c.pk,
+                'user': {'pk': c.user.pk, 'username': c.user.username, 'name':c.user.name, 'image': c.user.image.url},
+                'text': c.text,
+                'date': 'همین حالا',
+                'repTo':c.rep_to.pk if c.rep_to else 0
+            })
+        return JsonResponse({},status=300)
+    
+    return JsonResponse({},status=300)
+
 
 def clean_data(data):
     newData = {}
