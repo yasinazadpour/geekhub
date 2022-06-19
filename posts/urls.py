@@ -5,7 +5,7 @@ from .views import *
 app_name = 'posts'
 
 urlpatterns = [
-    path('', home, name='home'),
+    path('', index, name='index'),
     path('tags/<name>', tag_view, name='tag'),
     path('search', search_view, name='search'),
     path('about', about_view, name='about'),

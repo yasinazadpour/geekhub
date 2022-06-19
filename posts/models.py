@@ -1,5 +1,6 @@
 from uuid import uuid4
 from datetime import datetime, timedelta, timezone
+from django.utils import timezone as djtimezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core import validators
@@ -10,7 +11,7 @@ class Post(models.Model):
     title = models.CharField(_("عنوان"), max_length=50, unique=True)
     image = models.ImageField(_("عکس"), help_text=_("بهتر است نسبت عکس 16:9 باشد."), upload_to='posts/')
     text =  models.TextField(_("متن"), max_length=20_000)
-    date = models.DateTimeField(_("تاریخ"), auto_now=True)
+    date = models.DateTimeField(_("تاریخ"), default=djtimezone.now)
     slug = models.CharField(_("کد صفحه"), max_length=50, unique=True)
     is_pub = models.BooleanField(_("منتشر شده"), default=False)
     tags = models.ManyToManyField('Tag', verbose_name=_("برچسب ها"), blank=True, related_name='taged_posts')

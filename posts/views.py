@@ -15,18 +15,17 @@ from .models import Post, Tag, Token
 
 User = get_user_model()
 
-def home(request):
+def index(request):
     num_page = request.GET.get('page', 1)
     q = request.GET.get('q')
     if q == 'top':
-        # TODO: order by comments count and ...
-        query = Post.objects.filter(is_pub=True).order_by('?')
+        query = Post.objects.filter(is_pub=True).order_by('-views','-date')
     elif q == 'oldest':
         query = Post.objects.filter(is_pub=True).order_by('date')
     else:
         query = Post.objects.filter(is_pub=True).order_by('-date')
 
-    p = Paginator(query, 25)
+    p = Paginator(query, 5)
     page = p.get_page(num_page)
     return render(request, 'index.html', {'page': page})
 
