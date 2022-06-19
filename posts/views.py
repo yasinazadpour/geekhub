@@ -82,7 +82,10 @@ def post_view(request, slug):
         
         if count:=len(set(related)) < 6:
             tops = Post.objects.filter(is_pub=True).order_by('-date')
-            related = related|tops[:6-count]
+            if related:
+                related = related|tops[:6-count]
+            else:
+                related = tops[:6-count]
 
         related = related[:6]
 
