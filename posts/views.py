@@ -145,8 +145,11 @@ def join_view(request):
 
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect('/me')
+            user.is_active = False
+            user.save()
+            # TODO: send email
+            print(f"token: {Token.generate(user).pk}")
+            return render(request, 'join.html', {'title': 'عضویت', 'created': True})
             
         return render(request, 'join.html', {'title': 'عضویت', 'form': form})
 
@@ -209,6 +212,20 @@ def change_password(request):
         return render(request, 'password_change.html', {'title': 'تعویض گذرواژه', 'form': form,'can_reset': bool(token)})
         
     return render(request, 'password_change.html', {'title': 'تعویض گذرواژه'})
+
+def verify(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    
+    token = request.GET.get('token')
+    
+    if token:=Token.check_token(token):
+        token.user.is_active = True
+        token.user.save()
+        login(request, token.user)
+        
+    return render(request, 'verify.html', {'title': 'تایید ایمیل'})
+
 
 def delete_account(request):
     user = request.user

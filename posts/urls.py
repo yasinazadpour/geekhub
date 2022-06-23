@@ -11,6 +11,7 @@ urlpatterns = [
     path('about', about_view, name='about'),
     path('login', login_view, name='login'),
     path('join', join_view, name='join'),
+    path('verify', verify, name='verify'),
     path('me', me_view, name='me'),
     path('change-password', change_password, name='change_password'),
     path('add-comment', add_comment, name='add_comment'),

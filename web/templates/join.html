@@ -5,6 +5,15 @@
 <body class="">
     <main class="overflow-auto w-full h-screen flex justify-between items-center flex-col">
         <span></span>
+        {% if created %}
+        <div class="border-[1px] flex flex-col items-center px-4 py-6 rounded-xl sm:border-2 my-6">
+            <h1 id="title" class="text-3xl">عضویت موفقیت آمیز !</h1>
+            <p id="about" class="mt-2 text-gray-500">حساب کاربری شما ساخته شد.</p>
+            <p id="about" class="mt-2 text-gray-500">برای فعال سازی حساب خود روی لینک ارسال شده در ایمیل کلید کنید.</p>
+
+            <a href="/" class="text-center active:scale-[0.98] bg-gray-900 px-8 py-3 rounded-full text-lg text-white w-full mt-8 active:opacity-90">صفحه اصلی</a>
+        </div>
+        {% else %}
         <form action="" method="POST" class="border-[1px] flex flex-col items-center px-4 py-6 rounded-xl sm:border-2 my-6">
             <h1 id="title" class="text-3xl">عضویت</h1>
             <p id="about" class="mt-2 text-gray-500">حساب کاربری خود را در سیستم بسازید</p>
@@ -31,6 +40,7 @@
                 <a href="/login" class="text-indigo-500">ورود به سیستم</a>
             </div>
         </form>
+        {% endif %}
         <span dir="ltr" id="copytihgt" class="mb-4 text-gray-700 text-sm">© site.com {% now "Y" %}. All right reserved.</span>
     </main>
 </body>
