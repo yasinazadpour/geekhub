@@ -8,7 +8,7 @@ from django.core import validators
 from django.utils.deconstruct import deconstructible
 
 def slug_validator(value):
-    urls = ['search', 'login', 'join','me','change-password','reset-password','add-comment','delete-account','logout-all','logout']
+    urls = ['verify', 'search', 'login', 'join','me','change-password','reset-password','add-comment','delete-account','logout-all','logout']
     if value in urls:
         raise ValidationError('این کد صفحه مجاز نیست.')
 

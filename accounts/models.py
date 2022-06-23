@@ -29,7 +29,7 @@ class MyUser(AbstractUser):
                 'unique': _("کاربری با این نام کاربری از قبل وجود دارد."),
         },
     )
-    name = models.CharField(_('نام کامل'), blank=True, max_length=50)
+    name = models.CharField(_('نام کامل'), default=_('بدون نام'), max_length=50)
     email = models.EmailField(
         _('آدرس ایمیل'), 
         unique=True,
