@@ -201,12 +201,13 @@ def change_password(request):
             form = PasswordChangeForm(request.user, request.POST)
         
         if form.is_valid():
-            user = form.save()
             
             if request.user.is_authenticated:
+                user = form.save()
                 login(request, user)
                 return redirect('/me')
                 
+            user = form.save()
             return redirect('/login')
             
         return render(request, 'password_change.html', {'title': 'تعویض گذرواژه', 'form': form,'can_reset': bool(token)})
