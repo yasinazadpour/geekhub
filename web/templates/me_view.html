@@ -43,40 +43,6 @@
       </div>
     </div>
   </form>
-
-  <form method="POST" class="flex justify-between mb-6 relative">
-    {% csrf_token %}
-    <div class="w-3/4">
-      <h2 class="py-1 text-xl">نام کاربری</h2>
-      <input
-        required
-        value="{{request.user.username}}"
-        type="text"
-        name="username"
-        maxlength="30"
-        pattern="^(?!.*\.\.)(?!.*\.$)[^\W][a-z0-9_.]{2,29}$"
-        placeholder="نام کاربری"
-        class="py-1 border-b-2 w-full focus:border-gray-500"
-        {% if form.errors.username %}
-        autofocus
-        {% endif %}
-      />
-
-      {% if form.errors.username %}
-      <p class="text-red-500">{{form.errors.username|first}}</p>
-      {% else %}
-      <p class="text-gray-700">
-        این نشانی حساب شماست و نمی تواند با حساب های دیگر یکی باشد.
-      </p>
-      {% endif %}
-    </div>
-    <div class="absolute left-0">
-      <button class="py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700">
-        ویرایش
-      </button>
-    </div>
-  </form>
-
   <form method="POST" class="flex justify-between mb-6 relative">
     {% csrf_token %}
     <div class="w-3/4">

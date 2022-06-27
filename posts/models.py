@@ -8,7 +8,7 @@ from django.core import validators
 from django.utils.deconstruct import deconstructible
 
 def slug_validator(value):
-    urls = ['verify', 'search', 'login', 'join','me','change-password','reset-password','add-comment','delete-account','logout-all','logout']
+    urls = ['verify', 'search', 'login', 'me','change-password','reset-password','add-comment','delete-account','logout-all','logout']
     if value in urls:
         raise ValidationError('این کد صفحه مجاز نیست.')
 
@@ -125,5 +125,5 @@ class Token(models.Model):
         verbose_name_plural = _('توکن ها')
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
 

@@ -109,10 +109,14 @@ def login_view(request):
 
     if request.method == 'POST':
         passwd = request.POST.get('password')
-        username = request.POST.get('username')
+        email = request.POST.get('email')
+        query = User.objects.filter(email=email)
 
-        if User.objects.filter(username=username).exists():
-            user = User.objects.get(username=username)
+        # Delete unverified users
+        query.filter(verified=False).delete()
+
+        if query.exists():
+            user = User.objects.get(email=email)
 
             if user.check_password(passwd):
                 login(request, user)
@@ -120,25 +124,11 @@ def login_view(request):
             
             return render(request, 'login.html', {'title': 'ورود', 'msg': {'password': 'گذرواژه وارد شده صحیح نمی باشد.'}})
 
-        return render(request, 'login.html', {'title': 'ورود', 'msg': {'username': 'کاربری با نام کاربری وارد شده وجود ندارد.'}})
-
-    return render(request, 'login.html', {'title': 'ورود'})
-
-def join_view(request):
-    if request.user.is_authenticated:
-        return redirect('/')
-
-    if request.method == 'POST':
-
-        passwd = request.POST.get('password')
-        username = request.POST.get('username')
-        email = request.POST.get('email')
+        # if email does not exists create it
         data = {
             'password1': passwd, 
             'password2': passwd,
             'email': email,
-            'username': username.lower(),
-            'name': username.lower()
         }
 
         form = JoinForm(data)
@@ -147,20 +137,22 @@ def join_view(request):
             user = form.save()
             user.is_active = False
             user.save()
+            
             # TODO: send email
             print(f"token: {Token.generate(user).pk}")
-            return render(request, 'join.html', {'title': 'عضویت', 'created': True})
             
-        return render(request, 'join.html', {'title': 'عضویت', 'form': form})
+            return render(request, 'login.html', {'title': 'ورود', 'created': True})
 
-    return render(request, 'join.html', {'title': 'عضویت'})
+        print(form.errors.as_json())
+        return render(request, 'login.html', {'title': 'ورود','form':form})
+
+    return render(request, 'login.html', {'title': 'ورود'})
 
 @login_required(login_url="/login")
 def me_view(request):
     if request.method == 'POST':
         user = request.user
         data = {
-            'username': user.username,
             'email': user.email,
             'name': user.name,
         }
@@ -186,18 +178,22 @@ def change_password(request):
         
         if is_valid:
             return render(request, 'password_change.html', {'title': 'تعویض گذرواژه', 'can_reset': True})
-            
-        if token is None:
+
+        elif token is None and request.user.is_authenticated:
             return render(request, 'password_change.html', {'title': 'تعویض گذرواژه'})
             
-        return render(request, 'password_change.html', {'title': 'تعویض گذرواژه', 'msg': 'توکن منقضی شده است.'})
+        return render(request, 'password_change.html', {'title': 'تعویض گذرواژه', 'msg': 'متاسفانه کد بازیابی منقضی شده است.'})
     
     if request.method == 'POST':
         token = request.POST.get('token')
         token = Token.check_token(token)
         if token:
             form = SetPasswordForm(token.user, request.POST)
+
         else :
+            if not request.user.is_authenticated:
+                return redirect('/login')
+                
             form = PasswordChangeForm(request.user, request.POST)
         
         if form.is_valid():
@@ -253,13 +249,13 @@ def reset_password(request):
         return render(request, 'reset_password.html',{'title': 'بازیابی گذرواژه','success': True})
 
     if request.method == 'POST':
-        username = request.POST.get('username')
-        query = User.objects.filter(username=username)
+        email = request.POST.get('email')
+        query = User.objects.filter(email=email)
         if query.exists():
             print(f"token: {Token.generate(query.first()).pk}")
             return render(request, 'reset_password.html',{'title': 'بازیابی گذرواژه','success': True})
         
-        return render(request, 'reset_password.html',{'title': 'بازیابی گذرواژه','msg': 'کاربری با نام کاربری وارد شده وجود ندارد.','username': username})
+        return render(request, 'reset_password.html',{'title': 'بازیابی گذرواژه','msg': 'کاربری با نشانی ایمیل وارد شده وجود ندارد.','email': email})
 
     return render(request, 'reset_password.html',{'title': 'بازیابی گذرواژه'})
         
@@ -293,7 +289,7 @@ def add_comment(request):
             c = form.save()
             return JsonResponse({
                 'pk': c.pk,
-                'user': {'pk': c.user.pk, 'username': c.user.username, 'name':c.user.name, 'image': c.user.image.url},
+                'user': {'pk': c.user.pk, 'name':c.user.name, 'image': c.user.image.url},
                 'text': c.text,
                 'date': 'همین حالا',
                 'repTo':c.rep_to.pk if c.rep_to else 0

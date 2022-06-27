@@ -74,7 +74,7 @@
                           <span class="text-md w-[80%] truncate">{{comment.user.name}}</span>
                           <span title="{{comment.date|date:'j M Y'}}" class="text-gray-500 text-sm">
                             {{comment.date|tsince|cut:'ها'}} پیش
-                            <button onclick="$('#repcontainer').removeClass('hidden');$('#repname').text('@{{comment.user.username|safe}}');$('#repto').attr('value','{{comment.pk}}');$('#repcontainer').attr('href','#{{comment.pk}}')" class="border-2 border-indigo-500 px-2 rounded-full text-indigo-500">پاسخ</button>
+                            <button onclick="$('#repcontainer').removeClass('hidden');$('#repname').text('{{comment.user.name|safe}}');$('#repto').attr('value','{{comment.pk}}');$('#repcontainer').attr('href','#{{comment.pk}}')" class="border-2 border-indigo-500 px-2 rounded-full text-indigo-500">پاسخ</button>
                             {% if request.user.is_superuser %}
                             <form method="POST" action="/admin/posts/comment/{{comment.pk}}/delete/" class="inline">
                               {% csrf_token %}
@@ -99,7 +99,7 @@
                         <span>
                           <span title="title="{{res.date|date:'j M Y'}}"" class="text-gray-500 text-sm"> {{res.date|tsince|cut:'ها'}} پیش </span>
                           <span class="text-gray-400 mx-1">•</span>
-                          <span class="text-gray-500 text-sm"> در پاسخ به<span dir="ltr" class="truncate text-indigo-500 ml-1">@{{comment.user.username}} </span>
+                          <span class="text-gray-500 text-sm"> در پاسخ به<span dir="ltr" class="truncate text-indigo-500 ml-1">{{comment.user.name}} </span>
                             <form method="POST" action="/admin/posts/comment/{{res.pk}}/delete/" class="inline">
                               {% csrf_token %}
                               <button type="submit" class="text-sm border-2 border-red-500 px-2 rounded-full text-red-500">حذف</button> 
@@ -171,7 +171,7 @@
                           <span class="text-gray-500 text-sm">
                               در پاسخ به
                               <span dir="ltr" class="truncate text-indigo-500 ml-1">
-                              @${r.user.username}
+                              ${r.user.name}
                               </span>
                           </span>
                         </span>
@@ -195,7 +195,7 @@
                               <span class="text-md w-[80%] truncate">${r.user.name}</span>
                               <span class="text-gray-500 text-sm">
                                 ${r.date}
-                                <button onclick="$('#repcontainer').removeClass('hidden');$('#repname').text('@${r.user.username}');$('#repto').attr('value','${r.pk}')" class="border-2 border-indigo-500 px-2 rounded-full text-indigo-500">پاسخ</button>
+                                <button onclick="$('#repcontainer').removeClass('hidden');$('#repname').text('${r.user.name}');$('#repto').attr('value','${r.pk}')" class="border-2 border-indigo-500 px-2 rounded-full text-indigo-500">پاسخ</button>
                               </span>
                           </div>
                         </div>

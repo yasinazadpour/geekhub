@@ -5,9 +5,9 @@ from .models import MyUser as User
 class JoinForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('username','email')
+        fields = ('email',)
 
 class UpdateUserForm(UserChangeForm):
     class Meta:
         model = User
-        fields = ('name', 'username', 'email', 'image')
+        fields = ('name', 'email', 'image')
