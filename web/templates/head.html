@@ -4,8 +4,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="{{description}}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>نام {% if title %}- {{ title|title }}{% endif %}</title>
-    
+    {% if title %}
+        <title>گیگ هاب - {{ title|title }}</title>
+    {% else %}
+        <title>گیگ هاب | تریبون آزاد</title>
+    {% endif %}
     {# TODO: use cdn in production #}
     <script src="{% static 'CSS/tailwind' %}"></script>
     <link rel="stylesheet" href="{% static 'CSS/style.css' %}"/>
