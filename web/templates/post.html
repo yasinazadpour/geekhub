@@ -1,15 +1,14 @@
 {% load posts_extra %}
-<div class="post my-2 first:mt-1 hover:border-slate-300 border-slate-100 rounded-xl p-3 border-[1px] sm:border-[2px] flex justify-between flex-col-reverse sm:flex-row relative">
+<div class="post my-2 first:mt-1 p-3 flex justify-between relative hover:border-b-slate-400 flex-col-reverse sm:flex-row">
     <div class="sm:w-3/5 md:w-3/5 xl:w-3/5 flex flex-col justify-between pt-3 sm:pl-3" >
-        <div class="sm:relative">
-
-            <h2 dir="rtl" class="text-2xl font-bold hover:underline cursor-pointer ">
-            <a href="/{{post.slug}}" class="hover:underline focus-visible:underline block" >{{post.title|title}}</a>
+        <a class="group block" href="/{{post.slug}}" >
+            <h2 dir="rtl" class="group-focus-visible:underline text-2xl font-bold group-hover:underline cursor-pointer mb-2 sm:mb-0">
+                {{post.title|title}}
             </h2>
-            <p class="my-1 text-gray-800" dir="rtl">
-            {{post.text|truncatechars:100|markdown|striptags}}
+            <p class="my-1 text-gray-800 sm:block" dir="rtl">
+                {{post.text|truncatechars:200|markdown|striptags}}
             </p>
-        </div>
+        </a>
 
         <span class="block overflow-hidden h-min relative after:absolute after:left-0 after:h-full after:w-32 after:bg-gradient-to-r after:from-white whitespace-nowrap">
             <span title="{{post.date|date:'j M Y'}}" class="bg-gray-100 text-sm px-2 rounded-full text-gray-500 sm:m-0">
@@ -29,5 +28,5 @@
         {% endfor %}
         </span>
     </div>
-    <div class="aspect-video overflow-hidden rounded-lg sm:w-2/5 md:w-2/5 xl:w-2/5 flex items-center bg-[url({{post.image.url}})] bg-center bg-cover"></div>
+	<div class="thumb aspect-video overflow-hidden rounded-lg sm:w-2/5 bg-[url({{post.image.url|safe}})] bg-center bg-cover"></div>
 </div>

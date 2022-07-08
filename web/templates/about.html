@@ -9,23 +9,23 @@
         </article>
     </main>
     <aside class="xl:sticky xl:top-14 w-full xl:w-[unset] xl:px-3 xl:max-w-[28rem] sm:px-10 px-4 min-w-[25vw]">
-        {% if hotlinks %}
-          <div class=" w-full  xl:max-h-screen overflow-hidden bg-white rounded-2xl my-4 border-[2px] border-slate-100 pb-3" id="hotlinks">
-            <h1 class="m-3 text-2xl">لینک های داغ 🔥 </h1>
-            <ul class="overflow-auto">
-              {% for hlink in hotlinks %}
-                <li class="w-full px-2 mb-2">
-                  <a title="باز کردن لینک" href="{{hlink.url}}" target="_blank" class="p-3 hover:bg-gray-100 focus-visible:bg-gray-100 block  rounded-xl border-2 text-md w-full">{{hlink.name}}</a>
-                </li>
-              {% endfor %}
-              {% if request.user.is_superuser %}
-              <li class="w-full px-2 mb-2">
-                <a title="افزودن لینک جدید" href="/admin/posts/hotlink/add/" class="p-3 hover:bg-gray-100 focus-visible:bg-gray-100 block  rounded-xl border-2 text-md w-full border-dashed"><i class="bi bi-plus-circle text-xl ml-3" ></i>افزودن لینک جدید</a>
-              </li>
-              {% endif %}
-            </ul>
-          </div>
-        {% endif %}
+      {% if hotlinks or request.user.is_superuser %}
+      <div class=" w-full  xl:max-h-screen overflow-hidden bg-white rounded-2xl my-4 border-[1px] sm:border-2 border-slate-100 pb-3" id="hotlinks">
+        <h1 class="m-3 text-2xl">لینک های داغ 🔥 </h1>
+        <ul class="overflow-auto">
+          {% for hlink in hotlinks %}
+            <li class="w-full px-2 mb-2">
+              <a title="باز کردن لینک" href="{{hlink.url}}" target="_blank" class="p-3 hover:bg-gray-100 focus-visible:bg-gray-100 block  rounded-xl border-[1px] sm:border-2 text-md w-full">{{hlink.name}}</a>
+            </li>
+          {% endfor %}
+          {% if request.user.is_superuser %}
+          <li class="w-full px-2 mb-2">
+            <a title="افزودن لینک جدید" target="_blank" href="/admin/posts/hotlink/add/" class="p-3 hover:bg-gray-100 focus-visible:bg-gray-100 block  rounded-xl border-[1px] sm:border-2 text-md w-full border-dashed"><i class="bi bi-plus-circle text-xl ml-3" ></i>افزودن لینک جدید</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    {% endif %}
       </aside>
 </main>
 

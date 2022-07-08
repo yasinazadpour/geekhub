@@ -1,24 +1,17 @@
-{% load posts_extra %}
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-    {% include './head.html' %}
-<body class="">
-    <main class="overflow-auto w-full h-screen flex justify-between items-center flex-col">
-        <span></span>
-        <form  method="POST" class="border-[1px] flex flex-col items-center px-4 py-6 rounded-xl sm:border-2 my-6">
-            <h1 id="title" class="text-3xl">حذف حساب کاربری</h1>
-            <p id="about" class="mt-2 text-gray-500">تمامی اطلاعات شما حذف خواهد شد.</p>
+{% extends './base_auth.html' %}
+{% block form %}
+    <form  method="POST" class="border-[1px] flex flex-col items-center px-4 py-6 rounded-xl sm:border-2 my-6">
 
-            <div class="w-[20rem] mt-4">
-                <input dir="auto" name="password" autocomplete="current-password" type="password" class="bg-gray-100 px-3 py-2 rounded-xl w-full" placeholder= "گذرواژه" required>
-                <span class="px-3 text-red-500 text-sm min-h-">{{message}}</span>
-            </div>
+        <h1 class="text-3xl">حذف حساب کاربری</h1>
+        <p class="mt-2 text-gray-500">تمامی اطلاعات شما حذف خواهد شد.</p>
 
-            {% csrf_token %}
-            <button type="submit" class="active:scale-[0.98] bg-red-500 px-8 py-3 rounded-full text-lg text-white w-full mt-8 active:opacity-90">حذف</button>
+        <div class="sm:w-[20rem] mt-4">
+            <input dir="auto" name="password" autocomplete="current-password" type="password" class="bg-gray-100 px-3 py-2 rounded-xl w-full" placeholder= "گذرواژه" required>
+            <span class="px-3 text-red-500 text-sm min-h-">{{message}}</span>
+        </div>
 
-        </form>
-        <span dir="ltr" id="copytihgt" class="mb-4 text-gray-700 text-sm">© site.com {% now "Y" %}. All right reserved.</span>
-    </main>
-</body>
-</html>
+        {% csrf_token %}
+        <button type="submit" class="active:scale-[0.98] bg-red-500 px-8 py-3 rounded-full text-lg text-white w-full mt-8 active:opacity-90">حذف</button>
+
+    </form>
+{% endblock form %}

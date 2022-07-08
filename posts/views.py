@@ -20,14 +20,12 @@ def index(request):
     q = request.GET.get('q')
     if q == 'top':
         query = Post.objects.filter(is_pub=True).order_by('-views','-date')
-    elif q == 'oldest':
-        query = Post.objects.filter(is_pub=True).order_by('date')
     else:
         query = Post.objects.filter(is_pub=True).order_by('-date')
 
     p = Paginator(query, 25)
     page = p.get_page(num_page)
-    return render(request, 'index.html', {'page': page})
+    return render(request, 'index.html', {'page': page, 'showtags': True})
 
 
 def tag_view(request, name):
@@ -38,15 +36,13 @@ def tag_view(request, name):
         tag = query.first()
         if q == 'top':
             # TODO: order by comments count and ...
-            posts = tag.posts.order_by('?')
-        elif q == 'oldest':
-            posts = tag.posts.all().order_by('date')
+            posts = tag.posts.order_by('-views','-date')
         else:
             posts = tag.posts.all().order_by('-date')
 
         p = Paginator(posts, 25)
         page = p.get_page(num_page)
-        return render(request, 'tag_view.html', {'page': page,'tag': tag,'title': f'# {tag.name}'})
+        return render(request, 'tag_view.html', {'page': page,'tag': tag,'title': f'# {tag.name}', 'showtags': True})
 
     else:
         raise Http404
@@ -89,7 +85,7 @@ def post_view(request, slug):
 
         related = related[:6]
 
-        return render(request, 'post_view.html', {'post': post, 'title': post.title,'related': set(related)})
+        return render(request, 'post_view.html', {'post': post, 'title': post.title,'related': set(related),  'showtags': True})
 
     raise Http404
 

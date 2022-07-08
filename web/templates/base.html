@@ -5,16 +5,15 @@
   <body>
 
     {# header #}
-    <header id="header" class="h-14 xl:h-14 fixed top-0 flex flex-col items-center xl:flex-row justify-between py-2 px-3 w-full z-20 border-b-[1px] xl:border-b-[2px] border-slate-100 bg-[#ffffffcc] backdrop-blur overflow-hidden" >
-        <h1 class="text-xl mt-2 xl:mt-0"><a href="/" class="block">نام</a></h1>
+    <header id="header" class="h-14 xl:h-14 fixed top-0 flex flex-col items-center xl:flex-row justify-between py-2 px-3 w-full z-20 border-b-[1px] xl:border-b-2 border-slate-100 bg-[#ffffffcc] backdrop-blur overflow-hidden" >
+        <h1 class="text-xl mt-2 xl:mt-0 text-right w-full text-white"><a href="/" class="bg-black rounded-lg px-3">نام</a></h1>
     
         <ul id="items" class="w-full xl:w-min xl:relative flex flex-col items-center xl:flex-row text-xl overflow-hidden xl:overflow-visible">
-            <li class="w-full text-center hover:opacity-50"><a class="w-full py-3 px-4 block" href="/">خانه</a></li>
             <li class="w-full text-center hover:opacity-50"><a class="w-full py-3 px-4 block" href="/about">درباره</a></li>
             <li class="w-full text-center hover:opacity-50 hidden xl:block"><a class="w-full py-3 px-4 block" href="/search">جستجو</a></li>
             {% if request.user.is_superuser %}
-                <li class="w-full text-center  hover:opacity-50"><a class="w-full py-3 px-4 block" href="/admin/">مدیریت</a></li>
-                <li class="w-full text-center hover:opacity-50 hidden xl:block"><a class="w-full py-3 px-4 block" href="/admin/posts/post/add/">نوشتن</a></li>
+                <li class="w-full text-center  hover:opacity-50"><a target="_blank" class="w-full py-3 px-4 block" href="/admin/">مدیریت</a></li>
+                <li class="w-full text-center hover:opacity-50 hidden xl:block"><a target="_blank" class="w-full py-3 px-4 block" href="/admin/posts/post/add/">نوشتن</a></li>
             {% endif %}
             {% if request.user.is_authenticated %}
                 <li class="flex w-full">
@@ -34,14 +33,14 @@
         </ul>
         
         <div class="absolute left-3 xl:hidden flex items-center">
-            {% if not title %}
-                <button title="نمایش برچسب ها" onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').addClass('overflow-hidden')"><i class="bi bi-hash py-1 text-2xl block px-2 text-slate-700"></i></button>
+            {% if showtags %}
+                <button title="نمایش برچسب ها" onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').toggleClass('overflow-hidden')"><i class="bi bi-hash py-1 text-2xl block px-2 text-slate-700"></i></button>
             {% endif %}
             <a title="شروع جستجو" href="/search" ><i class="bi bi-search py-1 text-lg block pl-4 pr-2 text-slate-700  " ></i></a>
             {% if request.user.is_superuser %}
-                <a title="شروع نوشتن" href="/admin/posts/post/add/" ><i class="bi bi-plus-circle py-1 text-lg block pl-4 pr-2 text-slate-700  " ></i></a>
+                <a title="شروع نوشتن" target="_blank" href="/admin/posts/post/add/" ><i class="bi bi-plus-circle py-1 text-lg block pl-4 pr-2 text-slate-700  " ></i></a>
             {% endif %}
-            <button onclick="$('#more').toggleClass('active');$('#header').toggleClass('{% if request.user.is_superuser %}h-[18rem]{% else %}h-56{% endif %}');" id="more" class="w-6 ">
+            <button onclick="$('#more').toggleClass('active');$('#header').toggleClass('{% if request.user.is_superuser %}h-[14rem]{% else %}h-40{% endif %}');" id="more" class="w-6 ">
                 <div class="h-[2px] w-full rounded-full bg-slate-700"></div>
                 <div class="h-[2px] w-full rounded-full bg-slate-700 my-2"></div>
                 <div class="h-[2px] w-full rounded-full bg-slate-700"></div>
@@ -57,7 +56,7 @@
     </main>
     {# footer #}
     <footer class="bg-gray-100 flex py-10 px-8 items-center justify-around text-gray-700 flex-col sm:flex-row text-lg w-full">
-        {% if links %}
+        {% if links or request.user.is_superuser %}
             <div class="flex mt-2 sm:m-0" id="links">
                 {% for link in links %}
                     <a
@@ -119,6 +118,7 @@
                 {% endif %}
             </div>
         {% endif %}
+        <span dir="ltr" id="copytihgt" class="text-gray-700 text-sm">© {{request.META.HTTP_HOST}} {% now "Y" %}. All right reserved.</span>        
     </footer>
   </body>
 </html>

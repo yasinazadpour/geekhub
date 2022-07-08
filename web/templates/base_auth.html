@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+    {% include './head.html' %}
+<body>
+    <main class="px-3 overflow-y-auto overflow-x-hidden w-full h-screen flex justify-between items-center flex-col">        
+        <span></span>
+        {% block form %}
+
+        {% endblock form %}
+        <span dir="ltr" id="copytihgt" class="text-gray-500 text-sm my-2">© {{request.META.HTTP_HOST}} {% now "Y" %}. All right reserved.</span>        
+    </main>
+</body>
+</html>
