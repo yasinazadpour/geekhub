@@ -44,7 +44,7 @@
             {% if showtags %}
                 <button title="نمایش برچسب ها" onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').toggleClass('overflow-hidden')" class="flex p-2 rounded-lg dark:hover:bg-gray-900 hover:bg-gray-100 ml-1"><i class="bi bi-hash text-2xl text-slate-700 contents dark:text-slate-300"></i></button>
             {% endif %}
-            <button onclick="$('#more').toggleClass('active');$('#header').toggleClass('{% if request.user.is_superuser %}h-[22rem]{% else %}h-[14rem]{% endif %}');" id="more" class="w-10 p-2 hover:bg-slate-100 dark:hover:bg-gray-900 rounded-lg ">
+            <button onclick="$('#more').toggleClass('active');$('#header').toggleClass('{% if request.user.is_superuser %}h-[22rem]{% else %}h-[16rem]{% endif %}');" id="more" class="w-10 p-2 hover:bg-slate-100 dark:hover:bg-gray-900 rounded-lg ">
                 <div class="h-[2px] w-full rounded-full bg-slate-700 dark:bg-slate-300"></div>
                 <div class="h-[2px] w-full rounded-full bg-slate-700 dark:bg-slate-300 my-2"></div>
                 <div class="h-[2px] w-full rounded-full bg-slate-700 dark:bg-slate-300"></div>

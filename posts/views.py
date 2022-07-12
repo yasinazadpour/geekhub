@@ -214,6 +214,7 @@ def verify(request):
     
     if token:=Token.check_token(token):
         token.user.is_active = True
+        token.user.verified = True
         token.user.save()
         Token.objects.filter(user=token.user).delete()
         login(request, token.user)
