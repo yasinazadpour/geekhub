@@ -1,6 +1,6 @@
 {% extends './base.html' %} {% block main %}
 <section class="p-6 max-w-6xl w-full">
-  <h1 class="text-3xl border-b-[1px] sm:border-b-2 mb-4 py-2">درباره شما</h1>
+  <h1 class="text-3xl border-b-[1px] sm:border-b-2 mb-4 py-2 dark:text-white dark:border-b-gray-800">درباره شما</h1>
   <form
     enctype="multipart/form-data"
     method="POST"
@@ -8,14 +8,14 @@
     class="flex justify-between mb-6"
   >
     <div class="w-3/4">
-      <h2 class="py-1 text-xl">عکس</h2>
-      <p class="py-1 text-gray-700">
+      <h2 class="py-1 text-xl dark:text-white">عکس</h2>
+      <p class="py-1 text-gray-700 dark:text-gray-400">
         این عکس را کاربران دیگر هم میتوانند ببینند
       </p>
       {% if form.errors.image %}
       <p class="text-red-500 py-1">{{form.errors.image|first}}</p>
       {% else %}
-      <p class="py-1 text-gray-700">
+      <p class="py-1 text-gray-700 dark:text-gray-400">
         سایز پیشنهادی: مربع، با کمتر از ۱۰۰۰ پیکسل در طول و عرض. فرمت های قابل
         قبول: JPG, PNG, GIF
       </p>
@@ -46,7 +46,7 @@
   <form method="POST" class="flex justify-between mb-6 relative">
     {% csrf_token %}
     <div class="w-3/4">
-      <h2 class="py-1 text-xl">نام کامل</h2>
+      <h2 class="py-1 text-xl dark:text-white">نام کامل</h2>
       <input
         required
         value="{{request.user.name}}"
@@ -54,7 +54,7 @@
         name="name"
         maxlength="50"
         placeholder="نام کامل"
-        class="py-1 border-b-2 w-full focus:border-gray-500"
+        class="py-1 border-b-2 w-full focus:border-gray-500 bg-transparent dark:text-slate-200 dark:focus:border-gray-300 dark:border-gray-700"
         {% if form.errors.name %}
         autofocus
         {% endif %}
@@ -63,11 +63,11 @@
       {% if form.errors.name %}
       <span class="text-red-500">{{form.errors.name}}</span>
       {% else %}
-      <p class="text-gray-700">کاربران دیگر هم میتوانند این نام را ببینند.</p>
+      <p class="text-gray-700 dark:text-gray-400">کاربران دیگر هم میتوانند این نام را ببینند.</p>
       {% endif %}
     </div>
     <div class="absolute left-0">
-      <button class="py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700">
+      <button class="dark:border-gray-900 dark:text-white py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700">
         ویرایش
       </button>
     </div>
@@ -76,14 +76,14 @@
   <form method="POST" class="flex justify-between mb-6 relative">
     {% csrf_token %}
     <div class="w-3/4">
-      <h2 class="py-1 text-xl">ایمیل</h2>
+      <h2 class="py-1 text-xl dark:text-white">ایمیل</h2>
       <input
         required
         value="{{request.user.email}}"
         type="email"
         name="email"
         placeholder="نشانی ایمیل"
-        class="py-1 border-b-2 w-full focus:border-gray-500"
+        class="py-1 border-b-2 w-full focus:border-gray-500 bg-transparent dark:text-slate-200 dark:focus:border-gray-300 dark:border-gray-700"
         {% if form.errors.email %}
         autofocus
         {% endif %}
@@ -92,29 +92,29 @@
       {% if form.errors.email %}
       <span class="text-red-500 text-sm">{{form.errors.email}} </span>
       {% else %}
-      <p class="text-gray-700">این نشانی ایمیل شماست.</p>
+      <p class="text-gray-700 dark:text-gray-400">این نشانی ایمیل شماست.</p>
       {% endif %}
     </div>
     <div class="absolute left-0">
-      <button class="py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700" >
+      <button class="dark:border-gray-900 dark:text-white py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700" >
         ویرایش
       </button>
     </div>
   </form>
 
-  <h1 class="text-3xl border-b-[1px] sm:border-b-2 mb-4 mt-6 py-2">
+  <h1 class="text-3xl border-b-[1px] sm:border-b-2 mb-4 mt-6 py-2 dark:text-white dark:border-b-gray-800">
     حریم خصوصی و امنیت
   </h1>
 
   <div class="flex justify-between mb-4">
     <div>
-      <h2 class="py-1 text-xl">عوض کردن گذرواژه</h2>
-      <p class="py-1 text-gray-700">
+      <h2 class="py-1 text-xl dark:text-white">عوض کردن گذرواژه</h2>
+      <p class="py-1 text-gray-700 dark:text-gray-400">
         شما می توانید گذرواژه حساب خود با استفاده از گذرواژه فعلی عوض کنید
       </p>
     </div>
     <div>
-      <button class="border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700" >
+      <button class="dark:border-gray-900 dark:text-white border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700" >
         <a class="py-1 px-3 block" href="/change-password"> تعویض </a>
       </button>
     </div>
@@ -123,15 +123,15 @@
   <form method="POST" action="/logout-all" class="flex justify-between mb-4">
     {% csrf_token %}
     <div>
-      <h2 class="py-1 text-xl">
+      <h2 class="py-1 text-xl dark:text-white">
         خروج از تمامی حساب های موجود در دستگاه های دیگر
       </h2>
-      <p class="py-1 text-gray-700">
+      <p class="py-1 text-gray-700 dark:text-gray-400">
         با این کار تمام دستگاه دیگر که در حساب شما هستند از سیستم خارج می شوند
       </p>
     </div>
     <div>
-      <button class="py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700" >
+      <button class="dark:border-gray-900 dark:text-white py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700" >
         خروج
       </button>
     </div>
@@ -140,15 +140,15 @@
   <form action="/logout" method="POST" class="flex justify-between mb-4">
     {% csrf_token %}
     <div>
-      <h2 class="py-1 text-xl">خروج از حساب فعلی</h2>
-      <p class="py-1 text-gray-700">
+      <h2 class="py-1 text-xl dark:text-white">خروج از حساب فعلی</h2>
+      <p class="py-1 text-gray-700 dark:text-gray-400">
         با این کار از حساب کاربری خود در این مرورگر خارج می شوید.
       </p>
     </div>
     <div>
       <button
         type="submit"
-        class="py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700"
+        class="dark:border-gray-900 dark:text-white py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700"
       >
         خروج
       </button>
@@ -157,13 +157,13 @@
 
   <div class="flex justify-between mb-4">
     <div>
-      <h2 class="py-1 text-xl">حذف حساب</h2>
-      <p class="py-1 text-gray-700">
+      <h2 class="py-1 text-xl dark:text-white">حذف حساب</h2>
+      <p class="py-1 text-gray-700 dark:text-gray-400">
         با این کار تمامی اطلاعات شما در سیستم برای همیشه حذف خواهد شد.
       </p>
     </div>
     <div>
-      <button class="border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700">
+      <button class="dark:border-gray-900 dark:text-white border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700">
         <a class="py-1 px-3 block" href="/delete-account"> حذف </a>
       </button>
     </div>

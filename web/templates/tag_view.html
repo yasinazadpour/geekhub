@@ -8,8 +8,8 @@
             <div class="flex items-center" title="{{tag.name}} • {{tag.posts.count}} پست">
                 <i class="bi bi-hash text-{{tag.pk|gencol}} text-7xl sm:text-8xl mr-2 "></i>
               <div class="flex flex-col">
-                <h1 class="text-lg sm:text-xl ">{{tag.name}}</h1>
-                <span class="text-gray-500">
+                <h1 class="text-lg sm:text-xl dark:text-white">{{tag.name}}</h1>
+                <span class="text-gray-500 dark:text-gray-400">
                   {{tag.posts.count}} پست
                 </span>
               </div>
@@ -17,11 +17,11 @@
           </div>
           <header class="flex items-center justify-center py-2">
             {% if request.GET.q == 'top' %}
-              <a title="نمایش آخرین پست های منتشر شده" class="border-b-[1px] sm:border-b-2 px-3 py-2 " href="/tags/{{tag.name|safe}}">آخرین ها </a>
+              <a title="نمایش آخرین پست های منتشر شده" class="border-b-[1px] sm:border-b-2 px-3 py-2 dark:border-slate-500 dark:text-slate-100" href="/tags/{{tag.name|safe}}">آخرین ها </a>
               <a title="نمایش برترین پست های منتشر شده" class="border-b-[1px] sm:border-b-2 px-3 py-2 border-indigo-500 text-indigo-500" href="?q=top">برترین ها</a>
             {% else %}
               <a title="نمایش آخرین پست های منتشر شده" class="border-b-[1px] sm:border-b-2 px-3 py-2 border-indigo-500 text-indigo-500" href="">آخرین ها </a>
-              <a title="نمایش برترین پست های منتشر شده" class="border-b-[1px] sm:border-b-2 px-3 py-2" href="?q=top">برترین ها</a>
+              <a title="نمایش برترین پست های منتشر شده" class="border-b-[1px] sm:border-b-2 px-3 py-2 dark:border-slate-500 dark:text-slate-100" href="?q=top">برترین ها</a>
             {% endif %}
           </header>
           
@@ -42,7 +42,7 @@
       {% if tags %}  
         <div
           id="tags"
-          class="h-5/6 xl:h-min left-0 rounded-tr-2xl rounded-tl-2xl fixed xl:relative xl:bottom-[unset] xl:block w-full xl:max-h-screen overflow-hidden z-30 xl:z-10 bg-white xl:rounded-2xl xl:my-4 border-[1px] sm:border-2 border-slate-100 -bottom-full"
+          class="h-5/6 xl:h-min left-0 rounded-tr-2xl rounded-tl-2xl fixed xl:relative xl:bottom-[unset] xl:block w-full xl:max-h-screen overflow-hidden z-30 xl:z-10 dark:bg-black  xl:rounded-2xl xl:my-4 border-[1px] sm:border-2 border-slate-100 dark:border-gray-900 -bottom-full"
         >
           <button
             onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').removeClass('overflow-hidden')"
@@ -51,19 +51,19 @@
             <div class="rounded-full bg-gray-200 w-20 h-1 xl:h-20 xl:w-1"></div>
           </button>
   
-          <h1 class="text-3xl text-slate-700 m-2">برچسب ها</h1>
+          <h1 class="text-3xl text-slate-700 m-2 dark:text-slate-200">برچسب ها</h1>
           <ul class="max-h-[50vh] overflow-auto">
             {% for tag in tags %}
             <li>
               <a
                 title="نمایش پست های این برچسب"
                 href="/tags/{{tag.name}}"
-                class="px-3 flex items-center text-7xl text-{{tag.pk|gencol}} w-full hover:bg-gray-100 focus-visible:bg-gray-100"
+                class="px-3 flex items-center text-7xl text-{{tag.pk|gencol}} w-full hover:bg-gray-100 focus-visible:bg-gray-100   dark:hover:bg-gray-900 dark:focus-visible:bg-gray-900"
               >
                 <i class="bi bi-hash"></i>
                 <span class="flex flex-col mr-2">
-                  <span class="text-xl text-gray-700">{{tag.name}}</span>
-                    <span class="text-lg text-gray-500">{{tag.posts.count}} پست</span> 
+                  <span class="text-xl text-gray-700 dark:text-slate-200">{{tag.name}}</span>
+                    <span class="text-lg text-gray-500 dark:text-slate-400">{{tag.posts.count}} پست</span> 
                 </span>
               </a>
             </li>

@@ -14,4 +14,29 @@
     <link rel="stylesheet" href="{% static 'CSS/style.css' %}"/>
     <link rel="stylesheet" href="{% static 'CSS/icons/font/bootstrap-icons.css' %}"/>
     <script src="{% static 'JS/jquery.min.js' %}"></script>
+    <script>
+        function light() {
+            $(document.documentElement).removeClass('dark');
+            window.localStorage.setItem('dark', 0);
+            $('.mode').addClass('bi-sun').removeClass('bi-moon');
+        }
+        function dark() {
+            $(document.documentElement).addClass('dark');
+            window.localStorage.setItem('dark', 1);
+            $('.mode').addClass('bi-moon').removeClass('bi-sun');
+        }
+        function toggleTheme(){
+            if (window.localStorage.getItem('dark') == 0){
+                dark()
+            }else{
+                light()
+            }
+        }
+        function checkTheme() {            
+            if (window.localStorage.getItem('dark') != 1){
+                light()
+            }
+        }
+
+    </script>
 </head>

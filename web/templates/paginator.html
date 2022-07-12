@@ -5,7 +5,7 @@
         href="?page={{page.previous_page_number}}"
         title="صفحه قبلی"
         name="صفحه قبلی"
-        class="p-2 mx-1 hover:bg-slate-100 focus-visible:bg-slate-100 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
+        class="p-2 mx-1 hover:bg-slate-100 focus-visible:bg-slate-100 dark:focus-visible:bg-slate-900 dark:focus-visible:text-slate-200 dark:hover:bg-slate-900 dark:hover:text-slate-200 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
     {% else %}
         title="صفحه قبلی وجود ندارد"
         name="صفحه قبلی وجود ندارد"
@@ -22,7 +22,7 @@
             href="?page={{j}}"
             title="صفحه {{j}}"
             name="صفحه {{j}}"
-            class="p-2 mx-1 hover:bg-slate-100 focus-visible:bg-slate-100 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
+            class="p-2 mx-1 hover:bg-slate-100 focus-visible:bg-slate-100 dark:focus-visible:bg-slate-900 dark:focus-visible:text-slate-200 dark:hover:bg-slate-900 dark:hover:text-slate-200 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
             >{{j}}</a>
 
         {% endif %}
@@ -32,17 +32,17 @@
         href="?page={{page.number}}"
         title="صفحه {{page.number}}"
         name="صفحه {{page.number}}"
-        class="p-2 mx-1 bg-slate-100 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
+        class="p-2 mx-1 bg-slate-100 dark:bg-slate-900 dark:text-slate-200 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
     >{{page.number}}</a>
 
     {% for i in page.number|pg %}
         {% if i in page.paginator.page_range %}
 
             <a
-            href="?page={{i}}"
-            title="صفحه {{i}}"
-            name="صفحه {{i}}"
-            class="p-2 mx-1 hover:bg-slate-100 focus-visible:bg-slate-100 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
+                href="?page={{i}}"
+                title="صفحه {{i}}"
+                name="صفحه {{i}}"
+                class="p-2 mx-1 hover:bg-slate-100 focus-visible:bg-slate-100 dark:focus-visible:bg-slate-900 dark:focus-visible:text-slate-200 dark:hover:bg-slate-900 dark:hover:text-slate-200 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
             >{{i}}</a>
 
         {% endif %}
@@ -53,7 +53,7 @@
         href="?page={{page.next_page_number}}"
         title="صفحه بعدی"
         name="بعدی صفخه"
-        class="p-2 mx-1 hover:bg-slate-100 focus-visible:bg-slate-100 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
+        class="p-2 mx-1 hover:bg-slate-100 focus-visible:bg-slate-100 dark:focus-visible:bg-slate-900 dark:focus-visible:text-slate-200 dark:hover:bg-slate-900 dark:hover:text-slate-200 rounded-md aspect-square w-max flex items-center justify-center px-4 max-h-10"
     {% else %}
         title="صفحه بعدی وجود ندارد"
         name="صفحه بعدی وجود ندارد"

@@ -1,9 +1,9 @@
 {% extends './base.html' %}
 {% block main %}
     <main class="p-4 sm:p-6 max-w-6xl w-full">
-        <form action="/search" method="GET" class="bg-gray-100 flex pr-3 py-1 rounded-xl w-full sm:w-2/3 xl:w-3/5 mx-auto mb-10">
-            <input type="text" value="{{request.GET.text}}" name="text" id="#searchInput" class="bg-transparent text-gray-700 text-xl w-full" placeholder="جستجوی پست ها">
-            <button title="شروع جستجو" type="submit" class="text-slate-500 text-2xl hover:bg-gray-200 h-full aspect-square rounded-xl px-2 ml-1"><i class="bi bi-search "></i></button> 
+        <form action="/search" method="GET" class="bg-gray-100 dark:bg-gray-900 flex pr-3 py-1 rounded-xl w-full sm:w-2/3 xl:w-3/5 mx-auto mb-10">
+            <input type="text" value="{{request.GET.text}}" name="text" id="#searchInput" class="bg-transparent text-gray-700 dark:text-gray-300 text-xl w-full" placeholder="جستجوی پست ها" required>
+            <button title="شروع جستجو" type="submit" class="text-slate-500  dark:hover:bg-gray-800  dark:focus-visible:bg-gray-800  focus-visible:bg-gray-200 text-2xl hover:bg-gray-200 h-full aspect-square rounded-xl px-2 ml-1 flex items-center justify-center"><i class="bi bi-search contents"></i></button> 
         </form>
         {% if page.object_list %}
             <div  id="posts" class="min-h-[70vh]">
@@ -18,7 +18,7 @@
         
         {% empty %}
             {% if request.GET.text %}
-            <p class="mt-10 text-xl">
+            <p class="mt-10 text-xl dark:text-white">
                 چنین پستی وجود نداره
             </p>
                 {# TODO: use an inllastration #}

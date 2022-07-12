@@ -107,6 +107,10 @@ article blockquote{
   padding: 0.75rem;
   border-right: 2px solid #6b7280;
 }
+.dark article blockquote{
+  color: #d1d5db;
+  border-right: 2px solid #e5e7eb;
+}
 article ul{
   list-style: inside;
   margin: 1rem 0;
@@ -116,7 +120,7 @@ article ol{
   list-style-position: inside;
   margin: 1rem 0;
 }
-article a{
+article a:not(.link){
   color: #4f46e5;
 }
 article{
@@ -140,8 +144,12 @@ article img {
 article hr{
   margin: 2rem 4rem;
 }
+.dark article hr{
+  border-color: #1f2937;
+}
 article p{
   overflow-y: hidden;
+  margin: 1rem 0;
 }
 
 article :is(ul,ol) :is(ul,ol){
@@ -161,8 +169,17 @@ article code:not(code[class^="language"]){
   border-radius: 0.375rem;
   background: #f3f4f6; 
 }
+.dark article code:not(code[class^="language"]){
+  background: #1f2937; 
+}
+article li{
+  margin: .5rem 0;
+}
 article li p{
   display: inline;
+}
+.dark article{
+  color: #e5e7eb;
 }
 #comments a{
   color: #6366f1 !important;

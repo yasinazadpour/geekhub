@@ -1,12 +1,12 @@
 {% extends './base_auth.html' %}
 {% block form %}
-    <form  method="POST" class="border-[1px] flex flex-col items-center px-4 py-6 rounded-xl sm:border-2 my-6">
+    <form  method="POST" class="border-[1px] flex flex-col items-center px-4 py-6 rounded-xl sm:border-2 my-6 dark:border-gray-900">
 
-        <h1 class="text-3xl">حذف حساب کاربری</h1>
+        <h1 class="text-3xl dark:text-white">حذف حساب کاربری</h1>
         <p class="mt-2 text-gray-500">تمامی اطلاعات شما حذف خواهد شد.</p>
 
         <div class="sm:w-[20rem] mt-4">
-            <input dir="auto" name="password" autocomplete="current-password" type="password" class="bg-gray-100 px-3 py-2 rounded-xl w-full" placeholder= "گذرواژه" required>
+            <input dir="auto" name="password" autocomplete="current-password" type="password" class="bg-gray-100 px-3 py-2 rounded-xl w-full dark:bg-gray-900 dark:text-slate-200" placeholder= "گذرواژه" required>
             <span class="px-3 text-red-500 text-sm min-h-">{{message}}</span>
         </div>
 

@@ -1,15 +1,15 @@
 {% extends './base_auth.html' %}
 {% block form %}
     {% if request.user.is_authenticated %}
-        <div class="border-[1px] flex flex-col items-center px-4 py-6 rounded-xl sm:border-2 my-6">
-            <h1 class="text-3xl"> خوش آمدید!</h1>
+        <div class="border-[1px] flex flex-col items-center px-4 py-6 rounded-xl sm:border-2 my-6 dark:border-gray-900">
+            <h1 class="text-3xl dark:text-white"> خوش آمدید!</h1>
             <p class="mt-2 text-gray-500">حساب کاربری شما فعال شد.</p>
 
             <a href="/" class="text-center active:scale-[0.98] bg-gray-900 px-8 py-3 rounded-full text-lg text-white w-full mt-8 active:opacity-90">صفحه اصلی</a>
         </div>
     {% else %}
-        <div class="border-[1px] flex flex-col items-center px-4 py-6 rounded-xl sm:border-2 my-6">
-            <h1 class="text-3xl">مشکلی رخ داده است!</h1>
+        <div class="border-[1px] flex flex-col items-center px-4 py-6 rounded-xl sm:border-2 my-6 dark:border-gray-900">
+            <h1 class="text-3xl dark:text-white">مشکلی رخ داده است!</h1>
             <p class="mt-2 text-gray-500">توکن شما نادرسته.</p>
 
             <a href="/login" class="text-center active:scale-[0.98] bg-gray-900 px-8 py-3 rounded-full text-lg text-white w-full mt-8 active:opacity-90">سعی دوباره</a>
