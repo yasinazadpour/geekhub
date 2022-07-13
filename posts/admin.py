@@ -4,7 +4,11 @@ from .models import Link, Post, Comment, Tag, Token, HotLink
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('user', 'title', 'date', 'is_pub')
+    fieldsets = (
+        (None, {'fields': ('user', 'image','title', 'slug', 'text', 'is_pub', 'tags')}),
+     )
+
+    list_display = ('title','user', 'date', 'is_pub')
     list_filter = ('is_pub',)
     search_fields = ('title', 'slug')
 
