@@ -2,24 +2,35 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" class="dark">
   {% include './head.html' with title=title description=description %}
-  <body class="dark:bg-black" onload="checkTheme()">
+  <body class="dark:bg-black">
 
     {# header #}
-    <header id="header" class="h-14 xl:h-14 fixed top-0 flex flex-col items-center xl:flex-row justify-between py-2 px-3 w-full z-20 border-b-[1px] xl:border-b-2 border-slate-100 dark:border-gray-900 bg-[#ffffffcc] dark:bg-[#000000cc] backdrop-blur overflow-hidden" >
-        <h1 class="text-xl mt-2 xl:mt-0 text-right w-full text-white"><a href="/" class="bg-black rounded-lg px-3">گیک هاب | تریبون آزاد</a></h1>
-    
-        <ul id="items" class="w-full xl:w-min xl:relative flex flex-col items-center xl:flex-row text-xl overflow-hidden xl:overflow-visible dark:text-slate-100">
-            <button title="تغییر تم" onclick="toggleTheme()" class="hidden xl:flex p-2 rounded-lg dark:hover:bg-gray-900 hover:bg-gray-100 ml-1">
-                <i class="mode bi bi-sun text-2xl text-slate-700 contents dark:text-slate-300"></i>
-            </button>
-            <li class="mt-6 w-11/12 xl:hidden"><a class="w-full py-3 px-4 block bg-gray-200 text-gray-500  dark:bg-gray-900 rounded-lg dark:text-gray-600 cursor-text" href="/search"> جستجو پست ها</a></li>
-            <li class="w-full text-center hover:opacity-50"><a class="w-full py-3 px-4 block" href="/about">درباره</a></li>
-            <li class="w-full text-center hover:opacity-50 hidden xl:block"><a class="w-full py-3 px-4 block" href="/search">جستجو</a></li>
-
+    <header id="header" class="h-14 xl:h-14 fixed top-0 flex flex-col items-center xl:flex-row justify-between py-2 px-3 w-full z-20 border-b-[1px] xl:border-b-2 border-gray-100 dark:border-gray-900 bg-[#ffffffcc] dark:bg-[#000000cc] backdrop-blur overflow-hidden dark:border-opacity-60" >
+        <h1 class="text-xl mt-2 xl:mt-0 text-right w-full xl:w-auto text-white"><a href="/" class="bg-black rounded-lg px-3">گیک هاب | تریبون آزاد</a></h1>
+        
+        {% if not is_search %}
+            <form action="/search" method="get" class="hidden w-1/3 xl:flex items-center bg-gray-200 text-gray-500  dark:bg-gray-900 rounded-lg dark:text-gray-300 cursor-text dark:bg-opacity-50 dark:focus-within:border-gray-800 focus-within:border-gray-300 focus-within:border-opacity-60  border-[1px] sm:border-2 border-transparent ">
+                <input name="text" type="text" placeholder="جستجوی پست ها" class="bg-transparent w-full  py-2 px-1 ">
+                <button title="شروع جستجو" type="submit" class="text-gray-500  dark:hover:bg-gray-800  dark:focus-visible:bg-gray-800  focus-visible:bg-gray-200 text-xl hover:bg-gray-200 h-full aspect-square rounded-xl px-2 ml-1 flex items-center justify-center dark:hover:bg-opacity-40"><i class="bi bi-search contents"></i></button>
+            </form>
+        {% endif %}
+        <ul id="items" class="w-full xl:w-min xl:relative flex flex-col items-center xl:flex-row text-xl overflow-hidden xl:overflow-visible dark:text-gray-100">
+            {% comment %} <button title="تغییر تم" onclick="toggleTheme()" class="hidden xl:flex p-2 rounded-lg dark:hover:bg-gray-900 hover:bg-gray-100 ml-1">
+                <i class="mode bi bi-sun text-2xl text-gray-700 contents dark:text-gray-300"></i>
+            </button> {% endcomment %}
+            <li class="mt-6 w-11/12 xl:hidden">
+                <form action="/search" method="get" class="flex w-full xl:hidden items-center bg-gray-200 text-gray-500  dark:bg-gray-900 rounded-lg dark:text-gray-300 cursor-text dark:bg-opacity-50 dark:focus-within:border-gray-800 focus-within:border-gray-300 focus-within:border-opacity-60  border-[1px] sm:border-2 border-transparent ">
+                    <input name="text" type="text" placeholder="جستجوی پست ها" class="bg-transparent w-full  py-2 px-1 ">
+                    <button title="شروع جستجو" type="submit" class="text-gray-500  dark:hover:bg-gray-800  dark:focus-visible:bg-gray-800  focus-visible:bg-gray-200 text-xl hover:bg-gray-200 h-full aspect-square rounded-xl px-2 ml-1 flex items-center justify-center dark:hover:bg-opacity-40"><i class="bi bi-search contents"></i></button>
+                </form>
+            </li>
+            <li class="xl:hidden w-full text-center hover:opacity-50"><a class="w-full py-3 px-4 block" href="/about">درباره</a></li>
             {% if request.user.is_superuser %}
                 <li class="w-full text-center  hover:opacity-50"><a target="_blank" class="w-full py-3 px-4 block" href="/admin/">مدیریت</a></li>
                 <li class="w-full text-center hover:opacity-50 "><a target="_blank" class="w-full py-3 px-4 block" href="/admin/posts/post/add/">نوشتن</a></li>
             {% endif %}
+            <a href="/about" title="درباره ما" class="hidden xl:flex p-2 rounded-lg dark:hover:bg-gray-900 hover:bg-gray-100 ml-1 dark:hover:bg-opacity-50"><i class="bi bi-info-circle-fill text-2xl text-gray-700 contents dark:text-gray-300"></i></a>
+
             {% if request.user.is_authenticated %}
                 <li class="flex w-full">
                     <a href="/me" class="flex mr-4 w-full" title="نمایش پروفایل">
@@ -28,26 +39,25 @@
                     </div>
                     <div class="flex flex-col mr-3 xl:hidden w-2/3">
                         <span class="truncate ">{{request.user.name}}</span>
-                        <span class="text-slate-600 truncate pl-5 text-base dark:text-slate-400">{{request.user.email}}</span>
+                        <span class="text-gray-600 truncate pl-5 text-base dark:text-gray-400">{{request.user.email}}</span>
                     </div>
                     </a>
                 </li>
-            {% else %}
-                <li class="w-full overflow-visible flex justify-center"><a class="py-2 px-6 block bg-gray-900 rounded-full text-white w-11/12 xl:w-auto text-center overflow-visible" href="/login">ورود</a></li>
             {% endif %}
         </ul>
         
         <div class="absolute left-3 xl:hidden flex items-center">
-            <button title="تغییر تم" onclick="toggleTheme()" class="flex p-2 rounded-lg dark:hover:bg-gray-900 hover:bg-gray-100 ml-1">
-                <i class="mode bi bi-sun text-2xl text-slate-700 contents dark:text-slate-300"></i>
-            </button>
+            {% comment %} <button title="تغییر تم" onclick="toggleTheme()" class="flex p-2 rounded-lg dark:hover:bg-gray-900 hover:bg-gray-100 ml-1">
+                <i class="mode bi bi-sun text-2xl text-gray-700 contents dark:text-gray-300"></i>
+            </button> {% endcomment %}
             {% if showtags %}
-                <button title="نمایش برچسب ها" onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').toggleClass('overflow-hidden')" class="flex p-2 rounded-lg dark:hover:bg-gray-900 hover:bg-gray-100 ml-1"><i class="bi bi-hash text-2xl text-slate-700 contents dark:text-slate-300"></i></button>
+                <button title="نمایش برچسب ها" onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').toggleClass('overflow-hidden')" class="flex p-2 rounded-lg dark:hover:bg-gray-900 hover:bg-gray-100 ml-1 dark:hover:bg-opacity-50"><i class="bi bi-hash text-2xl text-gray-700 contents dark:text-gray-300"></i></button>
             {% endif %}
-            <button onclick="$('#more').toggleClass('active');$('#header').toggleClass('{% if request.user.is_superuser %}h-[22rem]{% else %}h-[16rem]{% endif %}');" id="more" class="w-10 p-2 hover:bg-slate-100 dark:hover:bg-gray-900 rounded-lg ">
-                <div class="h-[2px] w-full rounded-full bg-slate-700 dark:bg-slate-300"></div>
-                <div class="h-[2px] w-full rounded-full bg-slate-700 dark:bg-slate-300 my-2"></div>
-                <div class="h-[2px] w-full rounded-full bg-slate-700 dark:bg-slate-300"></div>
+
+            <button onclick="$('#more').toggleClass('active');$('#header').toggleClass('{% if request.user.is_superuser %}h-[22rem]{% elif request.user.is_authenticated %}h-[16rem] {% else %} h-[12rem]{% endif %}');" id="more" class="w-10 p-2 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-lg dark:hover:bg-opacity-50">
+                <div class="h-[2px] w-full rounded-full bg-gray-700 dark:bg-gray-300"></div>
+                <div class="h-[2px] w-full rounded-full bg-gray-700 dark:bg-gray-300 my-2"></div>
+                <div class="h-[2px] w-full rounded-full bg-gray-700 dark:bg-gray-300"></div>
             </button>
         </div>
     </header>
@@ -59,7 +69,7 @@
 
     </main>
     {# footer #}
-    <footer class=" flex py-10 px-2 items-center justify-around text-gray-700 flex-col sm:flex-row text-lg border-t-[1px] sm:border-t-2 dark:border-slate-900 mx-10 ">
+    <footer class="dark:border-opacity-60 mt-5 flex py-10 px-2 items-center justify-around text-gray-700 flex-col sm:flex-row text-lg border-t-[1px] sm:border-t-2 dark:border-gray-900 mx-10 ">
         {% if links or request.user.is_superuser %}
             <div class="flex mt-2 sm:m-0" id="links">
                 {% for link in links %}
@@ -68,47 +78,10 @@
                         target="_blank"
                         title="{{link.about}}"
                         rel="noopener noreferrer"
-                    {% if link.name == 'reddit' %}
-                        class="transition-none px-1 hover:scale-110 focus-visible:scale-110 hover:text-orange-500  focus-visible:text-orange-500">
-                        <i class="bi bi-reddit"></i>
-    
-                    {% elif link.name == 'linkedin'%}
-                        class="transition-none px-1 hover:scale-110 hover:text-blue-500 focus-visible:scale-110 focus-visible:text-blue-500">
-                        <i class="bi bi-linkedin"></i>
-                        
-                    {% elif link.name == 'pinterest'%}
-                        class="transition-none px-1 hover:scale-110 hover:text-red-500 focus-visible:scale-110 focus-visible:text-red-500">
-                        <i class="bi bi-pinterest"></i>
-                        
-                    {% elif link.name == 'github'%}
-                        class="transition-none px-1 hover:scale-110 hover:text-black focus-visible:scale-110 focus-visible:text-black dark:focus-visible:text-slate-200 dark:hover:text-slate-200">
-                        <i class="bi bi-github"></i>
-    
-                    {% elif link.name == 'telegram'%}
-                        class="transition-none px-1 hover:scale-110 hover:text-blue-500 focus-visible:scale-110 focus-visible:text-blue-500">
-                        <i class="bi bi-telegram"></i>
-                        
-                    {% elif link.name == 'facebook'%}
-                        class="transition-none px-1 hover:scale-110 hover:text-blue-500 focus-visible:scale-110 focus-visible:text-blue-500">
-                        <i class="bi bi-facebook"></i>
-                    
-                    {% elif link.name == 'youtube'%}
-                        class="transition-none px-1 hover:scale-110 hover:text-red-500 focus-visible:scale-110 focus-visible:text-red-500">
-                        <i class="bi bi-youtube"></i>
-    
-                    {% elif link.name == 'twitter'%}
-                        class="transition-none px-1 hover:scale-110 hover:text-blue-500 focus-visible:scale-110 focus-visible:text-blue-500">
-                        <i class="bi bi-twitter"></i>
-    
-                    {% elif link.name == 'instagram'%}
-                        class="transition-none px-1 hover:scale-110 hover:text-purple-700 focus-visible:scale-110 focus-visible:text-purple-500">
-                        <i class="bi bi-instagram"></i>
-    
-                    {% else %}
-                        class="transition-none px-1 hover:scale-110 hover:text-black focus-visible:scale-110 focus-visible:text-black dark:focus-visible:text-slate-200 dark:hover:text-slate-200">
-                        <i class="bi bi-link-45deg"></i>
-                    {% endif %}
-                </a>
+                        class="transition-none px-1 hover:scale-110 focus-visible:scale-110 hover:text-{{link.name|icon|last}}-500  focus-visible:text-{{link.name|icon|last}}-500 dark:hover:text-{{link.name|icon|first}}-500  dark:focus-visible:text-{{link.name|icon|first}}-500"
+                        >
+                        <i class="bi bi-{{link.name|icon:'class'}}"></i>
+                    </a>
                 {% endfor %}
                 {% if request.user.is_superuser %}
                 <a
@@ -122,7 +95,7 @@
                 {% endif %}
             </div>
         {% endif %}
-        <span dir="ltr" id="copytihgt" class="text-gray-700 dark:text-slate-400 text-sm">© {{request.META.HTTP_HOST}} {% now "Y" %}. All right reserved.</span>        
+        <span dir="ltr" id="copytihgt" class="mt-2 sm:mt-0 text-gray-700 dark:text-gray-400 text-sm">© {{request.META.HTTP_HOST}} {% now "Y" %}. All right reserved.</span>        
     </footer>
   </body>
 </html>

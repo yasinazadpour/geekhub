@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{% static 'CSS/icons/font/bootstrap-icons.css' %}"/>
     <script src="{% static 'JS/jquery.min.js' %}"></script>
     <script>
-        function light() {
+        {% comment %} function light() {
             $(document.documentElement).removeClass('dark');
             window.localStorage.setItem('dark', 0);
             $('.mode').addClass('bi-sun').removeClass('bi-moon');
@@ -36,7 +36,7 @@
             if (window.localStorage.getItem('dark') != 1){
                 light()
             }
-        }
+        } {% endcomment %}
 
     </script>
 </head>

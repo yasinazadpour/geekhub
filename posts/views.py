@@ -56,8 +56,8 @@ def search_view(request):
         query = Post.objects.filter(title__icontains=text, is_pub=True).order_by('-date')
         p = Paginator(query, 25)
         page = p.get_page(num_page)
-        return render(request, 'search.html', {'page': page, 'title': 'جستجو'})
-    return render(request, 'search.html', {'title': 'جستجو'})
+        return render(request, 'search.html', {'page': page, 'title': 'جستجو', 'is_search': True})
+    return render(request, 'search.html', {'title': 'جستجو', 'is_search': True})
 
 
 def post_view(request, slug):
@@ -139,7 +139,6 @@ def login_view(request):
             
             return render(request, 'login.html', {'title': 'ورود', 'created': True})
 
-        print(form.errors.as_json())
         return render(request, 'login.html', {'title': 'ورود','form':form})
 
     return render(request, 'login.html', {'title': 'ورود'})

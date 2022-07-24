@@ -6,7 +6,7 @@
 
   <main class="w-full max-w-5xl">
       <article class="p-4 sm:p-6">
-        <p class="text-slate-700 text-sm block dark:text-gray-300">
+        <p class="text-gray-700 text-sm block dark:text-gray-300">
           {% if request.user.is_staff %}
           <span title="{{post.user.email}}">نوشته شده توسط {{post.user.name}}</span>
           <span class="text-gray-800 text-xl mx-1 dark:text-gray-200">•</span>
@@ -25,7 +25,7 @@
                 class="link hover:underline focus-visible:underline mr-2 text-{{tag.pk|gencol}} cursor-pointer first:mr-0"
                 >
                 <i class="bi bi-hash"></i>
-                <span class="text-gray-700 dark:text-slate-300">
+                <span class="text-gray-700 dark:text-gray-300">
                     {{tag.name}}
                 </span>
                 </a>
@@ -36,23 +36,32 @@
 
         <div class="share flex w-full items-center justify-center mb-4 mt-6">
             {# TODO #}
-            <button title="کپی کردن لینک" class="rounded-full p-4 h-10 sm:h-14 aspect-square border-[1px] sm:border-2 flex items-center justify-center text-indigo-700 border-indigo-700 mx-1"><i class="bi bi-link-45deg contents"></i></button>
-            <button title="اشتراک گذاری در توییتر" class="rounded-full p-4 h-10 sm:h-14 aspect-square border-[1px] sm:border-2 flex items-center justify-center text-blue-500 border-blue-500 mx-1"><i class="bi bi-twitter contents"></i></button>
-            <button title="اشتراک گذاری در ردیت" class="rounded-full p-4 h-10 sm:h-14 aspect-square border-[1px] sm:border-2 flex items-center justify-center text-orange-600 border-orange-600 mx-1"><i class="bi bi-reddit contents"></i></button>
+            <button title="کپی کردن لینک" onClick="navigator.clipboard.writeText('{{request.META.HTTP_HOST}}/{{post.slug|safe}}');$('#copytext').removeClass('opacity-0');setTimeout(()=>$('#copytext').addClass('opacity-0'),5000)" class="hover:bg-indigo-700 dark:hover:text-black hover:text-whtie   rounded-full p-4 h-10 sm:h-14 aspect-square  border-[1px] sm:border-2 flex items-center justify-center text-indigo-700 border-indigo-700 mx-1">
+              <i class="bi bi-link-45deg contents"></i>
+              <div id="copytext" class="opacity-0 z-10 fixed  top-[80vh] text-center w-full left-0 pointer-events-none">
+                <span class="bg-black px-6 py-1 rounded-full border-gray-900  border-[1px] sm:border-2  text-white ">
+                لینک کپی شد!
+            </span>
+            </div>
+            </button>
+            <a target="_blank" href="https://twitter.com/intent/tweet?text={{post.title}}&url={{request.META.HTTP_HOST}}/{{post.slug|safe}}"  title="اشتراک گذاری در توییتر" class="hover:bg-blue-500 dark:hover:text-black hover:text-whtie  rounded-full p-4 h-10 sm:h-14 aspect-square  border-[1px] sm:border-2 flex items-center justify-center text-blue-500 border-blue-500 mx-1"><i class="bi bi-twitter contents"></i></a>
+            <button title="اشتراک گذاری در ردیت" class="hover:bg-orange-600 dark:hover:text-black hover:text-whtie   rounded-full p-4 h-10 sm:h-14 aspect-square  border-[1px] sm:border-2 flex items-center justify-center text-orange-600 border-orange-600 mx-1"><i class="bi bi-reddit contents"></i></button>
         </div>
         
         <div class="w-full flex justify-between mt-4 px-6">
-            <span class="text-slate-600 dark:text-slate-400"><span class="text-slate-800 dark:text-slate-200">{{post.views}}</span> بازدید</span>
+            <span class="text-gray-600 dark:text-gray-400"><span class="text-gray-800 dark:text-gray-200">{{post.views}}</span> بازدید</span>
             {% if request.user.is_superuser %}
-              <a class="text-indigo-600 border-[1px] sm:border-2 rounded-full px-2 border-indigo-500" href="/admin/posts/post/{{post.pk}}/change/">ویرایش</a>
+              <a class="text-indigo-600  border-[1px] sm:border-2 rounded-full px-2 border-indigo-500" href="/admin/posts/post/{{post.pk}}/change/">ویرایش</a>
             {% endif %}
-            <button onclick=" $('#tagsContainer').toggleClass('xl:hidden');$('#comments').toggleClass('hidden xl:hidden');$('body').toggleClass('overflow-hidden xl:overflow-auto');" title="نمایش نظرات" class="text-slate-600 dark:text-slate-400"><span class="text-slate-800 dark:text-slate-200">{{post.comments.count}}</span> نظر</button>
+            <button onclick=" $('#tagsContainer').toggleClass('xl:hidden');$('#comments').toggleClass('hidden xl:hidden');$('body').toggleClass('overflow-hidden xl:overflow-auto');" title="نمایش نظرات" class="text-gray-600 dark:text-gray-400"><span class="text-gray-800 dark:text-gray-200">{{post.comments.count}}</span> نظر</button>
         </div>
       </article>
-      
-      <hr class="my-8 mx-10 dark:border-gray-800">
-      <h2 class="text-3xl mr-4 mb-4 dark:text-slate-200">پست های مرتبط</h2>
-      <div class="px-4 sm:px-6">
+      {% if not request.user.is_authenticated %}
+        {% include './join_baner.html' %}
+      {% endif %}
+      <hr class="my-8 mx-10 dark:border-gray-900 dark:border-opacity-60">
+      <h2 class="text-3xl mr-4 mb-4 dark:text-gray-200">پست های مرتبط</h2>
+      <div id="posts" class="px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 2xl:grid-cols-3">
           {% for thispost in related %}
               {% if thispost.pk != post.pk %}
                   {% include './post.html' with post=thispost %}
@@ -62,29 +71,29 @@
 
   </main>
 
-  <aside id="comments" class="xl:hidden h-5/6 hidden bg-white dark:bg-black w-full fixed bottom-0 left-0 rounded-tr-2xl rounded-tl-2xl border-[1px] sm:border-2 xl:border-0 xl:w-auto xl:min-w-[30vw] xl:h-[calc(100vh-3.5rem)] xl:sticky xl:top-14 xl:flex xl:justify-between xl:flex-col py-2 pb-6 shadow-4xl dark:border-gray-900">
+  <aside id="comments" class="xl:hidden h-5/6 hidden bg-white dark:bg-black w-full fixed bottom-0 left-0 rounded-tr-2xl rounded-tl-2xl  border-[1px] sm:border-2 xl:border-0 xl:w-auto xl:min-w-[30vw] xl:h-[calc(100vh-3.5rem)] xl:sticky xl:min-w-[30rem] xl:top-14 xl:flex xl:justify-between xl:flex-col py-2 pb-6 shadow-4xl dark:border-gray-900">
     <button onclick="$('#tagsContainer').removeClass('xl:hidden');$('#comments').toggleClass('hidden xl:hidden');$('body').addClass('xl:overflow-auto');$('body').removeClass('overflow-hidden');"class="p-2 w-full flex items-center justify-center xl:w-auto xl:h-full xl:right-0 xl:absolute xl:hidden">
       <div class="rounded-full bg-gray-200 w-20 h-1 xl:h-20 xl:w-1"></div>
     </button>
-    <h1 class="mt-2 text-3xl mb-1 mx-4 xl:mx-0 dark:text-slate-200">نظرات کاربران</h1>
+    <h1 class="mt-2 text-3xl mb-1 mx-4 xl:mx-0 dark:text-gray-200">نظرات کاربران</h1>
     <div class="overflow-auto h-full px-2 pb-2 relative flex flex-col justify-center items-center" >
     <div id="commentsContainer" class="overflow-auto h-full w-full">
         {% for comment in post.comments %}
             {% if not comment.rep_to %}
               <div id="{{comment.pk}}"class="last:mb-44 first:mt-2 px-2 py-2">
-                <div class="border-[1px] sm:border-2 border-gray-100 dark:border-gray-900  rounded-lg  px-2 py-1 my-1">
+                <div class=" border-[1px] sm:border-2 border-gray-100 dark:border-gray-900  rounded-lg  px-2 py-1 my-1 dark:border-opacity-60">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center w-full overflow-hidden">
                       <img src="{{comment.user.image.url}}" alt="عکسِ {{comment.user.name}}  "class="h-12 w-12 rounded-full p-1 overflow-hidden" />
                       <div class="flex flex-col p-1 w-5/6">
-                          <span class="text-md w-[80%] truncate dark:text-slate-200">{{comment.user.name}}</span>
+                          <span class="text-md w-[80%] truncate dark:text-gray-200">{{comment.user.name}}</span>
                           <span title="{{comment.date|date:'j M Y'}}" class="text-gray-500 text-sm">
                             {{comment.date|tsince|cut:'ها'}} پیش
-                            <button onclick="$('#repcontainer').removeClass('hidden');$('#repname').text('{{comment.user.name|safe}}');$('#repto').attr('value','{{comment.pk}}');$('#repcontainer').attr('href','#{{comment.pk}}')" class="border-[1px] sm:border-2 border-indigo-500 px-2 rounded-full text-indigo-500">پاسخ</button>
+                            <button onclick="$('#repcontainer').removeClass('hidden');$('#repname').text('{{comment.user.name|safe}}');$('#repto').attr('value','{{comment.pk}}');$('#repcontainer').attr('href','#{{comment.pk}}')" class=" border-[1px] sm:border-2 border-indigo-500 px-2 rounded-full text-indigo-500">پاسخ</button>
                             {% if request.user.is_superuser %}
                             <form method="POST" action="/admin/posts/comment/{{comment.pk}}/delete/" class="inline">
                               {% csrf_token %}
-                              <button type="submit" class="border-[1px] sm:border-2 border-red-500 px-2 rounded-full text-red-500">حذف</button>
+                              <button type="submit" class=" border-[1px] sm:border-2 border-red-500 px-2 rounded-full text-red-500">حذف</button>
                             </form>
                           </span>
                             {% endif %}
@@ -100,18 +109,18 @@
                     <div class="res flex items-center w-full justify-start relative">
                     <div id="related" class="absolute w-2 border-l-[1px] sm:border-l-2 h-full right-6 top-0 translate-y-1 dark:border-gray-700"></div>
                     <img src="{{res.user.image.url}}" alt="عکسِ {{res.user.name}} " class="h-12 w-12 rounded-full p-1 mb-auto mr-2 z-[2] overflow-hidden mt-2"/>
-                    <div class="flex flex-col w-[calc(100%-52px)] border-[1px] sm:border-2 border-gray-100 dark:border-gray-900  rounded-lg  p-2 my-1">
-                        <span class="text-md w-[80%] truncate dark:text-slate-200"> {{res.user.name}} </span>
+                    <div class="flex flex-col w-[calc(100%-52px)]  border-[1px] sm:border-2 border-gray-100 dark:border-gray-900  rounded-lg  p-2 my-1 dark:border-opacity-60">
+                        <span class="text-md w-[80%] truncate dark:text-gray-200"> {{res.user.name}} </span>
                         <span>
                           <span title="title="{{res.date|date:'j M Y'}}"" class="text-gray-500 text-sm"> {{res.date|tsince|cut:'ها'}} پیش </span>
                           <span class="text-gray-400 mx-1">•</span>
                           <span class="text-gray-500 text-sm"> در پاسخ به<span dir="ltr" class="truncate text-indigo-500 ml-1">{{comment.user.name}} </span>
                             <form method="POST" action="/admin/posts/comment/{{res.pk}}/delete/" class="inline">
                               {% csrf_token %}
-                              <button type="submit" class="text-sm border-[1px] sm:border-2 border-red-500 px-2 rounded-full text-red-500">حذف</button> 
+                              <button type="submit" class="text-sm  border-[1px] sm:border-2 border-red-500 px-2 rounded-full text-red-500">حذف</button> 
                             </form>
                           </span>
-                        <p dir="auto" class="text-sm mt-1 text-gray-800 whitespace-pre-line">{{res.text|urlize}}</p>
+                        <p dir="auto" class="text-sm mt-1 text-gray-800 whitespace-pre-line dark:text-gray-300">{{res.text|urlize}}</p>
                     </div>
                     </div>
                     {% endfor %}
@@ -123,7 +132,7 @@
     {% if request.user.is_authenticated %}
       <form method="POST" id="subCommentForm"  class="mb-4 fixed xl:absolute bottom-0 w-11/12 z-10">
         {% csrf_token %}
-          <a id="repcontainer" href="" class="hidden bg-white dark:bg-black dark:text-gray-300 dark:border-gray-900  mb-1 rounded-xl border-[1px] sm:border-2  w-full py-2 px-3 text-gray-500 text-sm flex justify-between">
+          <a id="repcontainer" href="" class="hidden bg-white dark:bg-black dark:text-gray-300 dark:border-gray-900  mb-1 rounded-xl  border-[1px] sm:border-2  w-full py-2 px-3 text-gray-500 text-sm flex justify-between dark:border-opacity-60">
               <input type="hidden" name="rep_to" id="repto">
             <span>
               پاسخ به
@@ -134,56 +143,25 @@
             </button>
           </a>
 
-        <div class="bg-[#ffffffcc] dark:bg-[#000000cc] dark:border-gray-900 backdrop-blur w-full p-2 flex border-[1px] sm:border-2 rounded-xl">
-          <img src="/media/users/b008d6c6-84fb-4012-8eeb-8ca4b78c9c5e.png" alt="عکس پروفایل من" class="rounded-full h-9 w-9 p-1">
-          <input maxlength="200" id="commentInput" type="text" placeholder="نظرتان را بنویسید" class="p-1 w-full ml-1 bg-transparent dark:text-slate-200" required="">
-          <button type="submit" class="px-2 text-indigo-500 hover:text-indigo-700 focus-visible:text-indigo-700 border-r-2 my-2 dark:border-r-gray-900">ثبت</button>
+        <div class="bg-[#ffffffcc] dark:bg-[#000000cc] dark:border-gray-900 backdrop-blur w-full p-2 flex  border-[1px] sm:border-2 rounded-xl dark:border-opacity-60">
+          <img src="{{request.user.image.url}}" alt="عکس پروفایل من" class="rounded-full h-9 w-9 p-1">
+          <input maxlength="200" id="commentInput" type="text" placeholder="نظرتان را بنویسید" class="p-1 w-full ml-1 bg-transparent dark:text-gray-200" required="">
+          <button type="submit" class="px-2 text-indigo-500 hover:text-indigo-700 focus-visible:text-indigo-700 border-r-2 my-2 dark:border-r-gray-900 dark:border-opacity-60">ثبت</button>
         </div>
       </form>
     {% else %}
       <div class="mb-4 fixed xl:absolute bottom-0 w-11/12 z-10">
-        <div class="bg-[#ffffffcc] dark:bg-[#000000cc] dark:border-gray-900 backdrop-blur w-full p-2 flex border-[1px] sm:border-2 rounded-xl">
-          <span class="p-1 w-full ml-1 text-gray-500 dark:text-slate-200">برای نوشتن نظرتان باید وارد سایت شوید</span>
-          <a href="/login" class="block px-2 text-indigo-500 hover:text-indigo-700 focus-visible:text-indigo-700 border-r-2 my-2 dark:border-r-gray-900">ورود</a>
+        <div class="bg-[#ffffffcc] dark:bg-[#000000cc] dark:border-gray-900 backdrop-blur w-full p-2 flex  border-[1px] sm:border-2 rounded-xl dark:border-opacity-60">
+          <span class="p-1 w-full ml-1 text-gray-500 dark:text-gray-200">برای نوشتن نظرتان باید وارد سایت شوید</span>
+          <a href="/login" class="block px-2 text-indigo-500 hover:text-indigo-700 focus-visible:text-indigo-700 border-r-2 my-2 dark:border-r-gray-900 dark:border-opacity-60">ورود</a>
         </div>
       </div>
     {% endif %}
     </div>
   </aside>
 
-  <aside id="tagsContainer" class="xl:sticky xl:top-14 w-full xl:w-[unset] xl:px-3 xl:max-w-[28rem] sm:px-10 px-4 min-w-[25vw]">
-    {% if tags %}  
-      <div
-        id="tags"
-        class="h-5/6 xl:h-[auto] left-0 rounded-tr-2xl rounded-tl-2xl fixed xl:relative xl:bottom-[unset] xl:block w-full xl:max-h-screen overflow-hidden z-30 xl:z-10 bg-white dark:bg-black xl:rounded-2xl xl:my-4 border-[1px] sm:border-2 border-slate-100 dark:border-gray-900 -bottom-full"
-      >
-        <button
-          onclick="$('#tagsContainer').removeClass('xl:hidden');$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').removeClass('overflow-hidden')"
-          class="p-2 w-full flex items-center justify-center xl:w-auto xl:h-full xl:right-0 xl:absolute xl:hidden"
-        >
-          <div class="rounded-full bg-gray-200 w-20 h-1 xl:h-20 xl:w-1"></div>
-        </button>
-
-        <h1 class="text-3xl text-slate-700 m-2 dark:text-slate-200">برچسب ها</h1>
-        <ul class="max-h-[50vh] overflow-auto">
-          {% for tag in tags %}
-          <li>
-            <a
-              title="نمایش پست های این برچسب"
-              href="/tags/{{tag.name}}"
-              class="px-3 flex items-center text-7xl text-{{tag.pk|gencol}} w-full hover:bg-gray-100 focus-visible:bg-gray-100   dark:hover:bg-gray-900 dark:focus-visible:bg-gray-900"
-            >
-              <i class="bi bi-hash"></i>
-              <span class="flex flex-col mr-2">
-                <span class="text-xl text-gray-700 dark:text-slate-200">{{tag.name}}</span>
-                  <span class="text-lg text-gray-500 dark:text-slate-400">{{tag.posts.count}} پست</span> 
-              </span>
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-    {% endif %}
+  <aside id="tagsContainer" class="xl:sticky xl:min-w-[30rem] xl:top-14 w-full xl:w-[unset] xl:px-3 xl:max-w-[28rem] sm:px-10 px-4 min-w-[25vw]">
+    {% include './tags.html' %}
   </aside>
 </main>
   <script>
@@ -205,14 +183,14 @@
             if (r.repTo){
               $(`#commentsContainer #${r.repTo} #res`).append(`
               <div class="res flex items-center w-full justify-start relative">
-                <div id="related" class="absolute w-2 border-l-[1px] sm:border-l-2 h-full right-6 top-0 translate-y-1 dark:border-gray-700"></div>
+                <div id="related" class="absolute w-2 border-l-[1px] border-l-2 h-full right-6 top-0 translate-y-1 dark:border-gray-700 dark:border-opacity-60"></div>
                     <img
                         src="${r.user.image}"
                         alt="عکسِ ${r.user.name} "
                         class="h-12 w-12 rounded-full p-1 mb-auto mr-2 z-[2] overflow-hidden mt-2"
                     />
-                    <div class="flex flex-col w-[calc(100%-52px)] border-[1px] sm:border-2 border-gray-100 dark:border-gray-900 rounded-lg  p-2 my-1">
-                        <span class="text-md w-[80%] truncate dark:text-slate-200">${r.user.name}</span>
+                    <div class="flex flex-col w-[calc(100%-52px)]  border-[1px] sm:border-2 border-gray-100 dark:border-gray-900 rounded-lg  p-2 my-1 dark:border-opacity-60">
+                        <span class="text-md w-[80%] truncate dark:text-gray-200">${r.user.name}</span>
                         <span>
                           <span class="text-gray-500 text-sm">${r.date}</span>
                           <span class="text-gray-400 mx-1">•</span>
@@ -223,7 +201,7 @@
                               </span>
                           </span>
                         </span>
-                        <p dir="auto" class="text-sm mt-1 text-gray-800 whitespace-pre-line dark:text-slate-300">${r.text}</p>
+                        <p dir="auto" class="text-sm mt-1 text-gray-800 whitespace-pre-line dark:text-gray-300">${r.text}</p>
                     </div>
                   </div>
                 </div>
@@ -231,7 +209,7 @@
             }else{
               $('#commentsContainer').prepend(`
               <div id="${r.pk}" class="last:mb-20 first:mt-2 px-2 py-2">
-                  <div class="border-[1px] sm:border-2 border-gray-100 dark:border-gray-900 rounded-lg  px-2 py-1 my-1">
+                  <div class=" border-[1px] sm:border-2 border-gray-100 dark:border-gray-900 rounded-lg  px-2 py-1 my-1 dark:border-opacity-60">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center w-full overflow-hidden">
                           <img 
@@ -240,15 +218,15 @@
                             class="h-12 w-12 rounded-full p-1 overflow-hidden"
                           />
                           <div class="flex flex-col p-1 w-5/6">
-                              <span class="text-md w-[80%] truncate dark:text-slate-200">${r.user.name}</span>
+                              <span class="text-md w-[80%] truncate dark:text-gray-200">${r.user.name}</span>
                               <span class="text-gray-500 text-sm">
                                 ${r.date}
-                                <button onclick="$('#repcontainer').removeClass('hidden');$('#repname').text('${r.user.name}');$('#repto').attr('value','${r.pk}')" class="border-[1px] sm:border-2 border-indigo-500 px-2 rounded-full text-indigo-500">پاسخ</button>
+                                <button onclick="$('#repcontainer').removeClass('hidden');$('#repname').text('${r.user.name}');$('#repto').attr('value','${r.pk}')" class=" border-[1px] sm:border-2 border-indigo-500 px-2 rounded-full text-indigo-500">پاسخ</button>
                               </span>
                           </div>
                         </div>
                     </div>
-                      <p dir="auto" class="text-sm mt-1  text-gray-800 whitespace-pre-line dark:text-slate-300">${r.text}</p>
+                      <p dir="auto" class="text-sm mt-1  text-gray-800 whitespace-pre-line dark:text-gray-300">${r.text}</p>
                     </div>
                     <div id="res" class="mr-6 my-2"></div>
                 </div>

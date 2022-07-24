@@ -1,0 +1,39 @@
+{% load posts_extra %}
+{% if tags %}
+    <div
+    id="tags"
+    class="h-5/6 left-0 rounded-tr-2xl rounded-tl-2xl fixed xl:relative xl:bottom-[unset] xl:block w-full xl:max-h-screen overflow-hidden z-30 xl:z-10 bg-white dark:bg-black xl:rounded-2xl xl:my-4  border-[1px] sm:border-2 border-gray-100 dark:border-gray-900 dark:border-opacity-60 -bottom-full"
+    >
+    <button
+        onclick="$('#tags').toggleClass('-bottom-full bottom-0');$('#tags #close').toggleClass('opacity-0 pointer-events-none');$('body').removeClass('overflow-hidden')"
+        class="p-2 w-full flex items-center justify-center xl:w-auto xl:h-full xl:right-0 xl:absolute xl:hidden"
+    >
+        <div
+        class="rounded-full bg-gray-200 w-20 h-1 xl:h-20 xl:w-1 dark:bg-gray-500"
+        ></div>
+    </button>
+
+    <h1 class="text-3xl text-gray-700 m-2 dark:text-gray-200">برچسب ها</h1>
+    <ul class="h-full xl:max-h-[50vh] overflow-auto">
+        {% for tag in tags %}
+        <li class="last:mb-32">
+        <a
+            title="نمایش پست های این برچسب"
+            href="/tags/{{tag.name}}"
+            class="px-3 flex items-center text-7xl text-{{tag.pk|gencol}} w-full hover:bg-gray-100 focus-visible:bg-gray-100   dark:hover:bg-gray-900 dark:focus-visible:bg-gray-900 dark:focus-visible:bg-opacity-40 dark:hover:bg-opacity-40"
+        >
+            <i class="bi bi-hash"></i>
+            <span class="flex flex-col mr-2">
+            <span class="text-xl text-gray-700 dark:text-gray-200"
+                >{{tag.name}}</span
+            >
+            <span class="text-lg text-gray-500 dark:text-gray-400"
+                >{{tag.posts.count}} پست</span
+            >
+            </span>
+        </a>
+        </li>
+        {% endfor %}
+    </ul>
+    </div>
+{% endif %}

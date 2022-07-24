@@ -10,53 +10,16 @@
           {% if links or request.user.is_superuser %}
             <div class="flex mt-2 sm:m-0 items-center justify-center text-4xl" id="links">
                 {% for link in links %}
-                    <a
-                        href="{{link.url}}"
-                        target="_blank"
-                        title="{{link.about}}"
-                        rel="noopener noreferrer"
-                    {% if link.name == 'reddit' %}
-                        class="transition-none link px-1 hover:scale-110  text-orange-500 ">
-                        <i class="bi bi-reddit"></i>
-    
-                    {% elif link.name == 'linkedin'%}
-                        class="transition-none link px-1 hover:scale-110 text-blue-500 ">
-                        <i class="bi bi-linkedin"></i>
-                        
-                    {% elif link.name == 'pinterest'%}
-                        class="transition-none link px-1 hover:scale-110 text-red-500 ">
-                        <i class="bi bi-pinterest"></i>
-                        
-                    {% elif link.name == 'github'%}
-                        class="transition-none link px-1 hover:scale-110 text-black  dark:text-gray-200 ">
-                        <i class="bi bi-github"></i>
-    
-                    {% elif link.name == 'telegram'%}
-                        class="transition-none link px-1 hover:scale-110 text-blue-500 ">
-                        <i class="bi bi-telegram"></i>
-                        
-                    {% elif link.name == 'facebook'%}
-                        class="transition-none link px-1 hover:scale-110 text-blue-500 ">
-                        <i class="bi bi-facebook"></i>
-                    
-                    {% elif link.name == 'youtube'%}
-                        class="transition-none link px-1 hover:scale-110 text-red-500 ">
-                        <i class="bi bi-youtube"></i>
-    
-                    {% elif link.name == 'twitter'%}
-                        class="transition-none link px-1 hover:scale-110 text-blue-500 ">
-                        <i class="bi bi-twitter"></i>
-    
-                    {% elif link.name == 'instagram'%}
-                        class="transition-none link px-1 hover:scale-110 text-purple-700 ">
-                        <i class="bi bi-instagram"></i>
-    
-                    {% else %}
-                        class="transition-none link px-1 hover:scale-110 text-black  dark:text-gray-200 ">
-                        <i class="bi bi-link-45deg"></i>
-                    {% endif %}
+                <a
+                    href="{{link.url}}"
+                    target="_blank"
+                    title="{{link.about}}"
+                    rel="noopener noreferrer"
+                    class="link transition-none px-1 hover:scale-110 focus-visible:scale-110 text-{{link.name|icon|last}}-500  dark:text-{{link.name|icon|first}}-500 "
+                    >
+                    <i class="bi bi-{{link.name|icon:'class'}}"></i>
                 </a>
-                {% endfor %}
+            {% endfor %}
                 {% if request.user.is_superuser %}
                 <a
                     href="/admin/posts/link/add/"
@@ -72,25 +35,9 @@
             
         </article>
     </main>
-    <aside class="xl:sticky xl:top-14 w-full xl:w-[unset] xl:px-3 xl:max-w-[28rem] sm:px-10 px-4 min-w-[25vw] ">
-      {% if hotlinks or request.user.is_superuser %}
-      <div class=" w-full  xl:max-h-screen overflow-hidden bg-white dark:bg-black rounded-2xl my-4 border-[1px] sm:border-2 border-slate-100 pb-3  dark:border-slate-900" id="hotlinks">
-        <h1 class="m-3 text-2xl dark:text-slate-200">لینک های داغ 🔥 </h1>
-        <ul class="overflow-auto">
-          {% for hlink in hotlinks %}
-            <li class="w-full px-2 mb-2">
-              <a title="باز کردن لینک" href="{{hlink.url}}" target="_blank" class="p-3 hover:bg-gray-100 dark:hover:bg-gray-900 dark:-900 block  rounded-xl border-[1px] sm:border-2 text-md w-full dark:text-slate-100 dark:border-slate-900">{{hlink.name}}</a>
-            </li>
-          {% endfor %}
-          {% if request.user.is_superuser %}
-          <li class="w-full px-2 mb-2">
-            <a title="افزودن لینک جدید" target="_blank" href="/admin/posts/hotlink/add/" class="p-3 hover:bg-gray-100 dark:hover:bg-gray-900 dark:-900 block  rounded-xl border-[1px] sm:border-2 text-md w-full border-dashed dark:border-slate-900 dark:text-slate-100"><i class="bi bi-plus-circle text-xl ml-3" ></i>افزودن لینک جدید</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-    {% endif %}
-      </aside>
+    <aside class="xl:sticky xl:min-w-[30rem] xl:top-14 w-full xl:w-[unset] xl:px-3 xl:max-w-[28rem] sm:px-10 px-4 min-w-[25vw] ">
+      {% include './hotlinks.html' %}
+    </aside>
 </main>
 
 {% endautoescape %}

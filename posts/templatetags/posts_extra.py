@@ -6,6 +6,22 @@ import markdown as md
 
 register = template.Library()
 
+ICONS = {
+    #           dark       light
+    'reddit':  ['orange', 'orange'],
+    'linkedin':  ['blue', 'blue'],
+    'pinterest':  ['red', 'red'],
+    'github':  ['slate', 'black' ],
+    'telegram':  ['blue', 'blue'],
+    'facebook':  ['blue', 'blue'],
+    'youtube':  ['red', 'red'],
+    'twitter':  ['blue', 'blue'],
+    'instagram':  ['purple', 'purple'],
+    'link-45deg':  ['slate', 'black' ],
+}
+
+
+# tailwind color
 COLORS = ["red",
     "yellow",
     "orange",
@@ -62,3 +78,12 @@ def markdown_filter(value):
 def readtime_filter(value):
     return ceil(value/200)
 
+
+@register.filter("icon")
+def icon_filter(value, mode='color'):
+    if mode == 'color':
+        return ICONS.get(value, ICONS['link-45deg'])
+
+    elif value in ICONS.keys():
+        return value
+    return 'link-45deg'

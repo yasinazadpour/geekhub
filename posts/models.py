@@ -52,7 +52,7 @@ class Comment(models.Model):
 
 @deconstructible
 class TagVilidator(validators.RegexValidator):
-    regex = r'^[\.آ-یa-z_-]{3,50}$'
+    regex = r'^[ \.آ-یa-z_-]{3,50}$'
     message = _('یک برچسب معتبر وارد کنید.')
 
 

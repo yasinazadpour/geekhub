@@ -1,6 +1,6 @@
 {% extends './base.html' %} {% block main %}
 <section class="p-6 max-w-6xl w-full">
-  <h1 class="text-3xl border-b-[1px] sm:border-b-2 mb-4 py-2 dark:text-white dark:border-b-gray-800">درباره شما</h1>
+  <h1 class="text-3xl border-b-[1px] border-b-2 mb-4 py-2 dark:text-white dark:border-b-gray-800 dark:border-opacity-60">درباره شما</h1>
   <form
     enctype="multipart/form-data"
     method="POST"
@@ -54,7 +54,7 @@
         name="name"
         maxlength="50"
         placeholder="نام کامل"
-        class="py-1 border-b-2 w-full focus:border-gray-500 bg-transparent dark:text-slate-200 dark:focus:border-gray-300 dark:border-gray-700"
+        class="py-1 border-b-2 w-full focus:border-gray-500 bg-transparent dark:text-gray-200 dark:focus:border-gray-500 dark:border-gray-700 dark:border-opacity-60 "
         {% if form.errors.name %}
         autofocus
         {% endif %}
@@ -67,7 +67,7 @@
       {% endif %}
     </div>
     <div class="absolute left-0">
-      <button class="dark:border-gray-900 dark:text-white py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700">
+      <button class="dark:border-gray-900 dark:text-white py-1 px-3  border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700 dark:border-opacity-60 dark:hover:bg-opacity-40">
         ویرایش
       </button>
     </div>
@@ -83,7 +83,7 @@
         type="email"
         name="email"
         placeholder="نشانی ایمیل"
-        class="py-1 border-b-2 w-full focus:border-gray-500 bg-transparent dark:text-slate-200 dark:focus:border-gray-300 dark:border-gray-700"
+        class="py-1 border-b-2 w-full focus:border-gray-500 bg-transparent dark:text-gray-200 dark:focus:border-gray-500 dark:border-gray-700  dark:border-opacity-60 "
         {% if form.errors.email %}
         autofocus
         {% endif %}
@@ -96,13 +96,13 @@
       {% endif %}
     </div>
     <div class="absolute left-0">
-      <button class="dark:border-gray-900 dark:text-white py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700" >
+      <button class="dark:border-gray-900 dark:text-white py-1 px-3  border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700 dark:border-opacity-60 dark:hover:bg-opacity-40" >
         ویرایش
       </button>
     </div>
   </form>
 
-  <h1 class="text-3xl border-b-[1px] sm:border-b-2 mb-4 mt-6 py-2 dark:text-white dark:border-b-gray-800">
+  <h1 class="text-3xl border-b-[1px] border-b-2 mb-4 mt-6 py-2 dark:text-white dark:border-b-gray-800 dark:border-opacity-60 ">
     حریم خصوصی و امنیت
   </h1>
 
@@ -114,7 +114,7 @@
       </p>
     </div>
     <div>
-      <button class="dark:border-gray-900 dark:text-white border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700" >
+      <button class="dark:border-gray-900 dark:text-white  border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700 dark:border-opacity-60 dark:hover:bg-opacity-40" >
         <a class="py-1 px-3 block" href="/change-password"> تعویض </a>
       </button>
     </div>
@@ -131,7 +131,7 @@
       </p>
     </div>
     <div>
-      <button class="dark:border-gray-900 dark:text-white py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700" >
+      <button class="dark:border-gray-900 dark:text-white py-1 px-3  border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700 dark:border-opacity-60 dark:hover:bg-opacity-40" >
         خروج
       </button>
     </div>
@@ -148,7 +148,7 @@
     <div>
       <button
         type="submit"
-        class="dark:border-gray-900 dark:text-white py-1 px-3 border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700"
+        class="dark:border-gray-900 dark:text-white py-1 px-3  border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700 dark:border-opacity-60 dark:hover:bg-opacity-40"
       >
         خروج
       </button>
@@ -163,7 +163,7 @@
       </p>
     </div>
     <div>
-      <button class="dark:border-gray-900 dark:text-white border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700">
+      <button class="dark:border-gray-900 dark:text-white  border-[1px] sm:border-2 rounded-full active:scale-[0.98] active:opacity-90 transition-all hover:bg-gray-900 hover:text-white focus-visible:border-gray-700 dark:border-opacity-60 dark:hover:bg-opacity-40">
         <a class="py-1 px-3 block" href="/delete-account"> حذف </a>
       </button>
     </div>
