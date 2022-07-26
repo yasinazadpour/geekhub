@@ -98,6 +98,18 @@ class HotLink(models.Model):
         return self.name
 
 
+class Media(models.Model):
+    file = models.FileField(_("فایل"), upload_to='posts/')
+    date = models.DateTimeField(_("تاریخ"), auto_now=True)
+
+
+    def __str__(self):
+        return self.file.url
+
+    class Meta:
+        verbose_name = _('رسانه')
+        verbose_name_plural = _('رسانه ها')
+
 class Token(models.Model):
     id = models.CharField(_('توکن'), max_length=200, unique=True, primary_key=True)
     user = models.ForeignKey('accounts.MyUser', verbose_name=_("کاربر"), on_delete=models.CASCADE, related_name="user_tokens")
