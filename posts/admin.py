@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Link, Post, Comment, Tag, Token, HotLink, Media
+from .models import Link, Post, Comment, Tag, Token, HotLink, Media, Setting
 
 
 @admin.register(Post)
@@ -22,3 +22,4 @@ admin.site.register(Link)
 admin.site.register(Token)
 admin.site.register(HotLink)
 admin.site.register(Media)
+admin.site.register(Setting)

@@ -4,10 +4,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="{{description}}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{{setting.favicon.url}}" type="image/x-icon">
     {% if title %}
-        <title>گیک هاب - {{ title|title }}</title>
+        <title>{{setting.other_title|default:'عنوان'}} - {{ title|title }}</title>
     {% else %}
-        <title>گیک هاب | تریبون آزاد</title>
+        <title>{{setting.title|default:'عنوان صفحه اصلی'}}</title>
     {% endif %}
     {# TODO: use cdn in production #}
     <script src="{% static 'CSS/tailwind' %}"></script>

@@ -1,4 +1,4 @@
-from .models import HotLink, Link, Tag
+from .models import HotLink, Link, Tag, Setting
 
 
 def custom(request):
@@ -9,4 +9,5 @@ def custom(request):
         )
     return {'links': Link.objects.all(),
             'tags': tags,
+            'setting': Setting.objects.last(),
             'hotlinks': HotLink.objects.all()}

@@ -5,7 +5,7 @@
 <main class="flex flex-col items-center justify-center xl:flex-row w-full xl:items-start">
     <main class="max-w-5xl w-full">
         <article class="p-4 sm:p-6 mb-10 min-h-[76vh]">
-            {{post.text|markdown}}
+            {{setting.about|markdown}}
             
           {% if links or request.user.is_superuser %}
             <div class="flex mt-2 sm:m-0 items-center justify-center text-4xl" id="links">

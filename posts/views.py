@@ -91,13 +91,7 @@ def post_view(request, slug):
 
 
 def about_view(request):
-    query = Post.objects.filter(slug='about')
-
-    if query.exists():
-        post = query.first()
-        return render(request, 'about.html', {'post': post, 'title': 'درباره'})
-
-    return HttpResponse("ببخشید هنوز این صفحه رو نساختیم :(")
+    return render(request, 'about.html', {'title': 'درباره'})
 
 def login_view(request):
     if request.user.is_authenticated:

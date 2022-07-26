@@ -8,7 +8,7 @@ from django.core import validators
 from django.utils.deconstruct import deconstructible
 
 def slug_validator(value):
-    urls = ['verify', 'search', 'login', 'me','change-password','reset-password','add-comment','delete-account','logout-all','logout']
+    urls = ['verify', 'search', 'login', 'me','change-password','reset-password','add-comment','delete-account','logout-all','logout', 'about']
     if value in urls:
         raise ValidationError('این کد صفحه مجاز نیست.')
 
@@ -139,3 +139,21 @@ class Token(models.Model):
     def __str__(self):
         return self.user.email
 
+
+class Setting(models.Model):
+    THEMES = (
+        ('dark', 'dark'),
+        ('light', 'light'),
+    )
+    
+    favicon = models.ImageField(_("آیکون سایت"), upload_to='settings/')
+    title = models.CharField(_("متن عنوان صفحه اصلی"), max_length=50)
+    other_title = models.CharField(_("متن عنوان دیگر صفحات"), max_length=50)
+    header_text = models.CharField(_("متن هدر"), max_length=50)
+    theme = models.CharField(_("تم"), choices=THEMES, max_length=10)
+    about = models.TextField(_("درباره"), max_length=10_000)
+
+
+    class Meta:
+        verbose_name = _('تنظیمات')
+        verbose_name_plural = _('تنظیمات')
