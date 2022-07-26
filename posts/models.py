@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core import validators
 from django.utils.deconstruct import deconstructible
-
+from django.db.models.query import EmptyQuerySet
 def slug_validator(value):
     urls = ['verify', 'search', 'login', 'me','change-password','reset-password','add-comment','delete-account','logout-all','logout', 'about']
     if value in urls:
@@ -20,13 +20,19 @@ class Post(models.Model):
     text =  models.TextField(_("متن"), max_length=20_000)
     date = models.DateTimeField(_("تاریخ"), default=djtimezone.now)
     slug = models.CharField(_("کد صفحه"), max_length=50, unique=True, validators=[slug_validator])
-    is_pub = models.BooleanField(_("منتشر شده"), default=False)
     tags = models.ManyToManyField('Tag', verbose_name=_("برچسب ها"), blank=True, related_name='taged_posts')
     views = models.IntegerField(_("بازدید ها"), default=0)
     
     @property
     def comments(self):
-        return self.post_comments.all()
+        return self.post_comments.all()    
+
+    @classmethod
+    @property
+    def posts(cls):
+        if setting:=Setting.objects.last():
+            return setting.pubs.all()
+        return EmptyQuerySet()
 
     class Meta:
         verbose_name = _('پست')
@@ -64,7 +70,7 @@ class Tag(models.Model):
 
     @property
     def posts(self):
-        return self.taged_posts.filter(is_pub=True).order_by('-date')
+        return self.taged_posts.all()
 
     class Meta:
         verbose_name = _('برچسب')
@@ -152,6 +158,7 @@ class Setting(models.Model):
     other_title = models.CharField(_("متن عنوان دیگر صفحات"), max_length=50)
     header_text = models.CharField(_("متن هدر"), max_length=50)
     theme = models.CharField(_("تم"), choices=THEMES, max_length=10)
+    pubs = models.ManyToManyField('Post', verbose_name=_("پست های منتشر شده"), blank=True, related_name='pub_posts')
     about = models.TextField(_("درباره"), max_length=10_000)
 
 

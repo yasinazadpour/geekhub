@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.contrib.sessions.models import Session
 from django.core.paginator import Paginator
-from django.http import Http404, HttpResponse
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 from PIL import Image
@@ -19,9 +19,9 @@ def index(request):
     num_page = request.GET.get('page', 1)
     q = request.GET.get('q')
     if q == 'top':
-        query = Post.objects.filter(is_pub=True).order_by('-views','-date')
+        query = Post.posts.order_by('-views','-date')
     else:
-        query = Post.objects.filter(is_pub=True).order_by('-date')
+        query = Post.posts.order_by('-date')
 
     p = Paginator(query, 25)
     page = p.get_page(num_page)
@@ -53,7 +53,7 @@ def search_view(request):
     text = request.GET.get('text')
     # TODO: use another features to order posts
     if text:
-        query = Post.objects.filter(title__icontains=text, is_pub=True).order_by('-date')
+        query = Post.posts(title__icontains=text).order_by('-date')
         p = Paginator(query, 25)
         page = p.get_page(num_page)
         return render(request, 'search.html', {'page': page, 'title': 'جستجو', 'is_search': True})
@@ -63,7 +63,7 @@ def search_view(request):
 def post_view(request, slug):
     query = Post.objects.filter(slug=slug)
 
-    if (query.exists() and request.user.is_staff) or (query.filter(is_pub=True).exists()):
+    if (query.exists() and request.user.is_staff) or (query.first() in Post.posts):
         post = query.first()
         post.views += 1
         post.save()
@@ -77,7 +77,7 @@ def post_view(request, slug):
                     related = tag.posts
         
         if count:=len(set(related)) < 6:
-            tops = Post.objects.filter(is_pub=True).order_by('-date')
+            tops = Post.posts.order_by('-date')
             if related:
                 related = related|tops[:6-count]
             else:

@@ -5,11 +5,10 @@ from .models import Link, Post, Comment, Tag, Token, HotLink, Media, Setting
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {'fields': ('user', 'image','title', 'description', 'slug', 'text', 'is_pub', 'tags')}),
+        (None, {'fields': ('user', 'image','title', 'description', 'slug', 'text', 'tags')}),
      )
 
-    list_display = ('title','user', 'date', 'is_pub')
-    list_filter = ('is_pub',)
+    list_display = ('title','user', 'date')
     search_fields = ('title', 'slug')
 
 
