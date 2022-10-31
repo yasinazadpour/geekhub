@@ -53,7 +53,7 @@ def search_view(request):
     text = request.GET.get('text')
     # TODO: use another features to order posts
     if text:
-        query = Post.posts(title__icontains=text).order_by('-date')
+        query = Post.objects.filter(title__icontains=text).order_by('-date')
         p = Paginator(query, 25)
         page = p.get_page(num_page)
         return render(request, 'search.html', {'page': page, 'title': 'جستجو', 'is_search': True})
