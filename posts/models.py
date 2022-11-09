@@ -32,7 +32,7 @@ class Post(models.Model):
     def posts(cls):
         if setting:=Setting.objects.last():
             return setting.pubs.all()
-        return EmptyQuerySet()
+        return []
 
     class Meta:
         verbose_name = _('پست')
@@ -70,7 +70,9 @@ class Tag(models.Model):
 
     @property
     def posts(self):
-        return self.taged_posts.all()
+        setting = Setting.objects.last()
+        return self.taged_posts.all() & setting.pubs.all()
+        
 
     class Meta:
         verbose_name = _('برچسب')

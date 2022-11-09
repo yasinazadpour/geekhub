@@ -19,9 +19,9 @@ def index(request):
     num_page = request.GET.get('page', 1)
     q = request.GET.get('q')
     if q == 'top':
-        query = Post.posts.order_by('-views','-date')
+        query = Post.posts.order_by('-views','-date') if Post.posts else []
     else:
-        query = Post.posts.order_by('-date')
+        query = Post.posts.order_by('-date') if Post.posts else [] 
 
     p = Paginator(query, 25)
     page = p.get_page(num_page)
@@ -53,7 +53,7 @@ def search_view(request):
     text = request.GET.get('text')
     # TODO: use another features to order posts
     if text:
-        query = Post.objects.filter(title__icontains=text).order_by('-date')
+        query = Post.posts.filter(title__icontains=text).order_by('-date') if Post.posts else []
         p = Paginator(query, 25)
         page = p.get_page(num_page)
         return render(request, 'search.html', {'page': page, 'title': 'جستجو', 'is_search': True})
@@ -77,9 +77,9 @@ def post_view(request, slug):
                     related = tag.posts
         
         if count:=len(set(related)) < 6:
-            tops = Post.posts.order_by('-date')
+            tops = Post.posts.order_by('-date') if Post.posts else []
             if related:
-                related = related|tops[:6-count]
+                related = related if type(tops)==list else related|tops[:6-count]
             else:
                 related = tops[:6-count]
 
