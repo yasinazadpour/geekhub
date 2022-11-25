@@ -10,11 +10,10 @@
     {% else %}
         <title>{{setting.title|default:'عنوان صفحه اصلی'}}</title>
     {% endif %}
-    {# TODO: use cdn in production #}
-    <script src="{% static 'CSS/tailwind' %}"></script>
     <link rel="stylesheet" href="{% static 'CSS/style.css' %}"/>
-    <link rel="stylesheet" href="{% static 'CSS/icons/font/bootstrap-icons.css' %}"/>
-    <script src="{% static 'JS/jquery.min.js' %}"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script>
         {% comment %} function light() {
             $(document.documentElement).removeClass('dark');
