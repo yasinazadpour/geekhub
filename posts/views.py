@@ -11,8 +11,8 @@ from django.views.decorators.http import require_POST
 from PIL import Image
 from django.http.response import JsonResponse
 from .forms import CommentForm
-from .models import Post, Tag, Token
-
+from .models import Post, Tag, Token, Setting
+from django.conf import settings as dj_settings
 User = get_user_model()
 
 def index(request):
@@ -110,6 +110,11 @@ def login_view(request):
 
             if user.check_password(passwd):
                 login(request, user)
+                
+                data = {'name': user.email}
+                data['host'] = request.get_host()
+                data['sitename'] = Setting.get_name()
+                user.send_email(f' ورود به{data["sitename"]}', 'email/login.txt', 'email/login.html', data)
                 return redirect('/')
             
             return render(request, 'login.html', {'title': 'ورود', 'msg': {'password': 'گذرواژه وارد شده صحیح نمی باشد.'}})
@@ -128,9 +133,18 @@ def login_view(request):
             user.is_active = False
             user.save()
             
-            # TODO: send email
-            print(f"token: {Token.generate(user).pk}")
+            token = Token.generate(user).pk
+        
+            if dj_settings.DEBUG:
+                print(f"[token] {token}")
             
+            data = {'name': user.email}
+            data['host'] = request.get_host()
+            data['link'] = f"{request.META['wsgi.url_scheme']}://{data['host']}/verify?token={token}"
+            data['sitename'] = Setting.get_name()
+        
+            user.send_email(f'به {data["sitename"]} خوش آمدید.', 'email/verify.txt', 'email/verify.html', data)
+                
             return render(request, 'login.html', {'title': 'ورود', 'created': True})
 
         return render(request, 'login.html', {'title': 'ورود','form':form})
@@ -186,7 +200,9 @@ def change_password(request):
             form = PasswordChangeForm(request.user, request.POST)
         
         if form.is_valid():
-            
+            data = {'name': user.email}
+            data['host'] = request.get_host()
+            user.send_email('گذرواژه شما با موفقیت تغییر کرد.', 'email/change.txt', 'email/change.html', data)
             if request.user.is_authenticated:
                 user = form.save()
                 login(request, user)
@@ -224,6 +240,9 @@ def delete_account(request):
 
             if is_valid:
                 user.delete()
+                data = {'name': user.email}
+                data['host'] = request.get_host()
+                user.send_email('حساب کاربری با موفقیت حذف گردید.', 'email/delete.txt', 'email/delete.html', data)
                 return redirect('/')
 
             return render(request, 'delete_account.html', {'title': 'حذف حساب کاربری','message': 'گذرواژه وارد شده صحیح نیست.'})
@@ -235,14 +254,30 @@ def delete_account(request):
 def reset_password(request):
     user = request.user
     if user.is_authenticated :
-        print(f"token: {Token.generate(user).pk}")
+        token = Token.generate(user).pk
+        if dj_settings.DEBUG:
+            print(f"[token] {token}")
+        
+        data = {'name': user.email}
+        data['host'] = request.get_host()
+        data['link'] = f"{request.META['wsgi.url_scheme']}://{data['host']}/reset-password?token={token}"
+        user.send_email('بازیابی گذرواژه', 'email/reset.txt', 'email/reset.html', data)
+
         return render(request, 'reset_password.html',{'title': 'بازیابی گذرواژه','success': True})
 
     if request.method == 'POST':
         email = request.POST.get('email')
         query = User.objects.filter(email=email)
         if query.exists():
-            print(f"token: {Token.generate(query.first()).pk}")
+            token = Token.generate(user).pk
+            if dj_settings.DEBUG:
+                print(f"[token] {token}")
+            
+            data = {'name': user.email}
+            data['host'] = request.get_host()
+            data['link'] = f"{request.META['wsgi.url_scheme']}://{data['host']}/reset-password?token={token}"
+            user.send_email('بازیابی گذرواژه', 'email/reset.txt', 'email/reset.html', data)
+
             return render(request, 'reset_password.html',{'title': 'بازیابی گذرواژه','success': True})
         
         return render(request, 'reset_password.html',{'title': 'بازیابی گذرواژه','msg': 'کاربری با نشانی ایمیل وارد شده وجود ندارد.','email': email})

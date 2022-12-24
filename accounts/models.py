@@ -12,7 +12,8 @@ from django.core.mail import send_mail
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -163,3 +164,10 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
         except:
             return False
+
+    def send_email(self, subject, plaintext, htmltext, context):
+        plain = get_template(plaintext).render(context)
+        html = get_template(htmltext).render(context)
+        msg = EmailMultiAlternatives(subject, plain, to=[self.email])
+        msg.attach_alternative(html, 'text/html')
+        return msg.send()

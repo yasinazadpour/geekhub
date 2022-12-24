@@ -163,6 +163,12 @@ class Setting(models.Model):
     pubs = models.ManyToManyField('Post', verbose_name=_("پست های منتشر شده"), blank=True, related_name='pub_posts')
     about = models.TextField(_("درباره"), max_length=10_000)
 
+    @classmethod
+    def get_name(cls):
+        last = cls.objects.last()
+        if last:
+            return last.other_title
+        return 'گیک هاب'
 
     class Meta:
         verbose_name = _('تنظیمات')
